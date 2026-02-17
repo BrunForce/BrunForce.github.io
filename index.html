@@ -27,15 +27,11 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* Print Specific Styles - EXPORT FUNCTIONALITY */
+        /* Print Specific Styles */
         @media print {
             @page { margin: 0.5cm; size: A4; }
             body { background-color: white; -webkit-print-color-adjust: exact; print-color-adjust: exact; overflow: visible !important; height: auto !important; }
-            
-            /* Hide UI elements not needed for report */
-            nav, button, .no-print, #hero-section, #wizard-section, #loading-section, #email-modal { display: none !important; }
-            
-            /* Ensure Results are visible and formatted for paper */
+            nav, button, .no-print, #hero-section, #wizard-section, #loading-section, #inline-email-form { display: none !important; }
             #app-container { margin: 0; padding: 0; height: auto; overflow: visible; }
             #results-section { 
                 position: relative !important; 
@@ -45,34 +41,13 @@
                 overflow: visible !important; 
                 background: white;
             }
-
-            /* Adjust layout for print */
             .print-break-inside { break-inside: avoid; }
             .print-container { max-width: 100% !important; padding: 0 20px !important; margin-top: 20px !important; }
             .print-header-image { height: 150px !important; opacity: 0.5 !important; }
-            .print-grid-fix { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-            .print-col-full { grid-column: 1 / -1; }
             
-            /* Typography fixes */
             h1, h2, h3 { color: #0f172a !important; }
             p, li { color: #334155 !important; }
-            
-            /* Footer for PDF */
-            .print-footer {
-                display: block !important;
-                position: fixed;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                text-align: center;
-                font-size: 10px;
-                color: #94a3b8;
-                padding: 10px;
-                border-top: 1px solid #e2e8f0;
-            }
         }
-        
-        .print-footer { display: none; }
     </style>
 <link type="text/css" href="https://fonts.googleapis.com/css2?family=Google+Symbols:opsz,wght,FILL,GRAD,ROND@24,400,0,0,50&amp;icon_names=link" rel="stylesheet"></head>
 <body class="text-slate-800 h-screen overflow-hidden flex flex-col">
@@ -91,11 +66,12 @@
             Contáctanos
         </button>
 </nav>
+
 <!-- Main Content Area -->
 <main class="flex-1 mt-16 relative overflow-hidden flex flex-col" id="app-container">
-<!-- Hero Section (Initial State) -->
+<!-- Hero Section -->
 <section class="absolute inset-0 z-10 flex items-center justify-center bg-slate-50" id="hero-section">
-<!-- NEW EXPORT BUTTON (Bottom Left) -->
+<!-- Dev Export Button -->
 <div class="absolute bottom-8 left-8 z-30 no-print">
 <button class="flex items-center gap-2 bg-slate-800 hover:bg-slate-900 text-slate-200 px-4 py-3 rounded-lg text-sm font-mono border border-slate-700 hover:border-blue-500 hover:text-white transition shadow-lg group" onclick="downloadFullSourceBundle()">
 <span class="material-symbols-outlined text-lg group-hover:text-blue-400">code</span>
@@ -128,25 +104,11 @@
 </span>
 <div class="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
 </button>
-<div class="mt-12 flex justify-center gap-8 text-slate-400 slide-up" style="animation-delay: 0.3s;">
-<div class="flex flex-col items-center">
-<span class="material-symbols-outlined mb-2">timer</span>
-<span class="text-xs font-medium uppercase tracking-wider">2 Minutos</span>
-</div>
-<div class="flex flex-col items-center">
-<span class="material-symbols-outlined mb-2">analytics</span>
-<span class="text-xs font-medium uppercase tracking-wider">Análisis AI</span>
-</div>
-<div class="flex flex-col items-center">
-<span class="material-symbols-outlined mb-2">lock</span>
-<span class="text-xs font-medium uppercase tracking-wider">100% Confidencial</span>
-</div>
-</div>
 </div>
 </section>
-<!-- Assessment Wizard (Hidden by default) -->
+
+<!-- Assessment Wizard -->
 <section class="absolute inset-0 z-20 hidden flex flex-col bg-slate-50" id="wizard-section">
-<!-- Progress Header -->
 <div class="w-full bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between z-10 relative">
 <div class="flex items-center gap-4">
 <button class="text-slate-400 hover:text-slate-600 transition" onclick="resetApp()">
@@ -161,8 +123,6 @@
 </div>
 <div class="hidden sm:block text-slate-500 text-sm italic" id="fun-fact-ticker" style="opacity: 1;">El costo promedio de inactividad es de $5,600 USD por minuto. (Gartner)</div>
 </div>
-<!-- Question Container -->
-<!-- MODIFIED: Changed alignment logic to ensure top visibility on long questions -->
 <div class="flex-1 overflow-y-auto p-4 flex flex-col items-center justify-start">
     <div class="w-full flex items-center justify-center min-h-min py-8">
         <div class="max-w-2xl w-full bg-white rounded-2xl shadow-xl border border-slate-100 p-8 md:p-12 scale-in" id="question-card">
@@ -171,7 +131,8 @@
     </div>
 </div>
 </section>
-<!-- Loading Analysis Screen (Hidden) -->
+
+<!-- Loading Analysis Screen -->
 <section class="absolute inset-0 z-30 hidden bg-white flex flex-col items-center justify-center text-center p-6" id="loading-section">
 <div class="relative w-24 h-24 mb-8">
 <svg class="animate-spin w-full h-full text-blue-600" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -192,9 +153,9 @@
 </div>
 </div>
 </section>
-<!-- Results Dashboard (Hidden) -->
+
+<!-- Results Dashboard -->
 <section class="absolute inset-0 z-40 hidden bg-slate-50 overflow-y-auto" id="results-section">
-<!-- Dashboard Header -->
 <div class="bg-slate-900 text-white pt-12 pb-24 px-6 relative overflow-hidden print-break-inside">
 <img class="absolute inset-0 w-full h-full object-cover opacity-10 mix-blend-overlay print-header-image" src="https://images.unsplash.com/photo-1558494949-efc535b5fa12?q=80&w=2070&auto=format&fit=crop">
 <div class="max-w-6xl mx-auto relative z-10 flex flex-col md:flex-row justify-between items-end gap-6">
@@ -202,25 +163,13 @@
 <h2 class="text-3xl font-bold mb-2">Diagnóstico de Madurez BCP</h2>
 <p class="text-slate-400">Generado el <span id="current-date">4 de diciembre de 2025</span> para su empresa</p>
 </div>
-<!-- EXPORT ACTIONS -->
-<div class="flex gap-3 no-print">
-<button class="flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white px-4 py-2 rounded-lg transition backdrop-blur-sm" onclick="window.print()">
-<span class="material-symbols-outlined">download</span>
-                            Descargar Reporte (PDF)
-                        </button>
-<button class="flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg transition shadow-lg" onclick="openEmailModal()">
-<span class="material-symbols-outlined">send</span>
-                            Enviar por Correo
-                        </button>
+<!-- Removed Header Buttons -->
 </div>
 </div>
-</div>
-<!-- Dashboard Content -->
-<div class="max-w-6xl mx-auto px-6 -mt-16 relative z-20 pb-20 print-container">
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 print-grid-fix">
-<!-- Left Column: Score Card -->
-<div class="lg:col-span-1 print-break-inside">
-<div class="bg-white rounded-2xl shadow-lg border border-slate-100 p-6 text-center h-full flex flex-col justify-between">
+
+<div class="max-w-3xl mx-auto px-6 -mt-16 relative z-20 pb-20 print-container">
+<!-- Single Column Layout -->
+<div class="bg-white rounded-2xl shadow-lg border border-slate-100 p-8 text-center print-break-inside">
 <div>
 <h3 class="text-slate-500 font-medium text-sm uppercase tracking-wider mb-6">Puntaje Acumulado</h3>
 <div class="relative w-48 h-48 mx-auto mb-6">
@@ -236,117 +185,89 @@
 <div class="mb-4" id="score-label-container">
 <span class="px-4 py-1 rounded-full text-sm font-bold bg-yellow-100 text-yellow-700" id="score-badge">Calculando...</span>
 </div>
-<p class="text-slate-600 text-sm leading-relaxed mb-6" id="score-description">
-                                    Su empresa muestra vulnerabilidades significativas en la gestión de continuidad.
-                                </p>
-</div>
-<!-- Nota sobre la escala -->
-<div class="bg-slate-50 rounded-xl p-4 text-left border border-slate-100">
-<p class="text-xs text-slate-400 text-center">
-                                    Puntaje basado en la suma directa de valores (Escala sobre 40 puntos).
-                                </p>
-</div>
-</div>
-</div>
-<!-- Right Column: Analysis & Recommendation -->
-<div class="lg:col-span-2 space-y-6 print-col-full">
-<!-- Status Alert -->
-<div class="bg-white rounded-2xl shadow-sm border-l-4 p-6 flex items-start gap-4 print-break-inside" id="status-card">
-<!-- Injected via JS -->
-</div>
-<!-- Recommendations Grid -->
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6 print-grid-fix">
-<div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 print-break-inside">
-<div class="w-12 h-12 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600 mb-4">
-<span class="material-symbols-outlined">warning</span>
-</div>
-<h4 class="font-bold text-slate-900 mb-2">Riesgos Identificados</h4>
-<ul class="text-sm text-slate-600 space-y-2" id="risks-list">
-<!-- Injected via JS -->
-</ul>
-</div>
-<div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 print-break-inside">
-<div class="w-12 h-12 rounded-lg bg-green-50 flex items-center justify-center text-green-600 mb-4">
-<span class="material-symbols-outlined">verified</span>
-</div>
-<h4 class="font-bold text-slate-900 mb-2">Oportunidades</h4>
-<ul class="text-sm text-slate-600 space-y-2" id="opportunities-list">
-<!-- Injected via JS -->
-</ul>
+<p class="text-slate-600 text-sm leading-relaxed mb-8 max-w-lg mx-auto" id="score-description">
+                    Su empresa muestra vulnerabilidades significativas en la gestión de continuidad.
+                </p>
+                
+                <!-- NEW INLINE EMAIL FORM -->
+                <div class="bg-blue-50 rounded-xl p-6 border border-blue-100 mt-8" id="inline-email-form">
+                    <h4 class="text-lg font-bold text-slate-800 mb-2">¿Quieres ver los detalles de esta evaluación?</h4>
+                    <p class="text-slate-600 text-sm mb-4">Ingresa tu correo aquí para mandarte los detalles completos.</p>
+                    <div class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+                        <input type="email" id="inline-user-email" class="flex-1 px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition" placeholder="nombre@empresa.com">
+                        <button onclick="handleInlineSubmit()" id="btn-inline-submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-bold transition shadow-lg flex items-center justify-center gap-2">
+                            <span>Enviar Detalles</span>
+                            <span class="material-symbols-outlined text-sm">send</span>
+                        </button>
+                    </div>
+                </div>
 </div>
 </div>
-<!-- BCMEX Service Pitch -->
-<div class="bg-gradient-to-r from-blue-900 to-slate-900 rounded-2xl p-8 text-white relative overflow-hidden shadow-xl print-break-inside no-print">
+
+<!-- BCMEX Service Pitch (Kept but simplified) -->
+<div class="mt-8 bg-gradient-to-r from-blue-900 to-slate-900 rounded-2xl p-8 text-white relative overflow-hidden shadow-xl print-break-inside no-print">
 <div class="absolute top-0 right-0 w-64 h-64 bg-blue-500 rounded-full mix-blend-overlay filter blur-3xl opacity-20 -mr-16 -mt-16"></div>
-<div class="relative z-10">
-<div class="flex flex-col md:flex-row items-center gap-8">
+<div class="relative z-10 flex flex-col md:flex-row items-center gap-8">
 <div class="flex-1">
 <h3 class="text-2xl font-bold mb-2">Mejore su puntaje con BCMEX</h3>
 <p class="text-blue-200 mb-6 text-sm leading-relaxed" id="pitch-text">
-                                            Nuestros expertos pueden implementar un BCP a medida que garantice la resiliencia operativa de su negocio.
-                                        </p>
+                        Nuestros expertos pueden implementar un BCP a medida que garantice la resiliencia operativa de su negocio.
+                    </p>
 <button class="bg-white text-blue-900 px-6 py-3 rounded-lg font-bold text-sm hover:bg-blue-50 transition shadow-lg inline-flex items-center gap-2">
-                                            Agendar Asesoría Gratuita
-                                            <span class="material-symbols-outlined text-lg">calendar_today</span>
+                        Agendar Asesoría Gratuita
+                        <span class="material-symbols-outlined text-lg">calendar_today</span>
 </button>
 </div>
-<div class="w-full md:w-1/3">
-<img class="rounded-lg shadow-lg border-2 border-white/10 w-full object-cover h-40" src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=2070&auto=format&fit=crop" id="pitch-image">
 </div>
 </div>
-</div>
-</div>
-<!-- Print Only Footer -->
-<div class="hidden bg-white p-6 rounded-2xl shadow-sm border border-slate-100 print-break-inside" id="print-contact" style="display:none;">
-<h4 class="font-bold text-slate-900 mb-2">Contacto BCMEX</h4>
-<p class="text-sm text-slate-600">Para implementar las recomendaciones de este reporte, contáctenos:</p>
-<p class="text-sm text-blue-600 font-bold mt-2">contacto@bcmex.com | www.bcmex.com | +52 55 1234 5678</p>
-</div>
-</div>
-</div>
-</div>
-<!-- Footer Facts -->
+
 <div class="mt-12 text-center no-print">
 <p class="text-sm text-slate-400">© 2025 BCMEX Solutions. Todos los derechos reservados.</p>
 </div>
-<div class="print-footer">
-                Reporte generado automáticamente por BCMEX Solutions AI Assessment. © 2025
-            </div>
+</div>
 </section>
 
-<!-- Email Capture Modal -->
-<div id="email-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/80 backdrop-blur-sm p-4 no-print">
-    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 transform scale-in">
-        <div class="flex justify-between items-center mb-6">
-            <h3 class="text-xl font-bold text-slate-900">Recibir Reporte Detallado</h3>
-            <button onclick="closeEmailModal()" class="text-slate-400 hover:text-slate-600">
-                <span class="material-symbols-outlined">close</span>
-            </button>
-        </div>
-        
-        <div class="mb-6">
-            <label class="block text-sm font-medium text-slate-700 mb-2">Su correo electrónico corporativo</label>
-            <input type="email" id="user-email-input" class="w-full px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition" placeholder="nombre@empresa.com">
-            <p class="text-xs text-slate-500 mt-2">Le enviaremos el diagnóstico completo, el desglose de su puntaje y recomendaciones en PDF.</p>
-        </div>
-
-        <div class="flex gap-3">
-            <button onclick="closeEmailModal()" class="flex-1 px-4 py-2 border border-slate-300 text-slate-700 font-medium rounded-lg hover:bg-slate-50 transition">
-                Cancelar
-            </button>
-            <button onclick="handleEmailSubmit()" class="flex-1 bg-blue-600 text-white px-4 py-2 font-bold rounded-lg hover:bg-blue-700 transition shadow-lg flex justify-center items-center gap-2" id="btn-send-email-action">
-                <span>Enviar Reporte</span>
-                <span class="material-symbols-outlined text-sm">send</span>
-            </button>
-        </div>
-    </div>
-</div>
-
 </main>
-<script>
-        // --- DATA & CONFIG ---
-        
-        // Initial Questions
+<script type="module">
+        // Import Firebase SDKs (Modular v9+)
+        // Changed to Realtime Database SDKs as requested
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
+        import { getDatabase, ref, push, set, serverTimestamp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js';
+        import { getAuth, signInAnonymously } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
+
+        // --- FIREBASE CONFIGURATION ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyC-IFIyAI-I-tIkDkljoqdBqh7c94ObHcc",
+            authDomain: "bcmexbcp.firebaseapp.com",
+            // IMPORTANT: This URL is derived from your project ID.
+            // If it fails, check the Realtime Database section in Firebase Console for the correct URL.
+            databaseURL: "https://bcmexbcp-default-rtdb.firebaseio.com",
+            projectId: "bcmexbcp",
+            storageBucket: "bcmexbcp.firebasestorage.app",
+            messagingSenderId: "279464565114",
+            appId: "1:279464565114:web:edf618d8dc06cd30c6dec3",
+            measurementId: "G-Z7V7Y6JMMW"
+        };
+
+        // Initialize Firebase
+        let db, auth;
+        let firebaseInitialized = false;
+
+        try {
+            const app = initializeApp(firebaseConfig);
+            db = getDatabase(app); // Use Realtime Database
+            auth = getAuth(app);
+            firebaseInitialized = true;
+            
+            // Try to sign in silently. If it fails due to config (not enabled in console), catch it silently.
+            signInAnonymously(auth).catch((error) => {
+                console.warn("Auth Warning: Could not sign in anonymously. Ensure Authentication is enabled in Firebase Console if using auth rules.", error.code);
+            });
+        } catch (e) {
+            console.error("Firebase init failed:", e);
+        }
+
+        // --- APP DATA & LOGIC ---
         const initialQuestions = [
             {
                 id: 'impact',
@@ -374,157 +295,28 @@
             }
         ];
 
-        // Path Specific Questions
         const paths = {
             'A': [
-                {
-                    id: 'a_freq',
-                    text: "¿Con qué frecuencia se pregunta por los riesgos de inactividad de sus sistemas?",
-                    options: [
-                        { label: "Nunca", val: 1 },
-                        { label: "Solo después de un fallo", val: 3 },
-                        { label: "Es un sistema mensual de KPI", val: 5 }
-                    ]
-                },
-                {
-                    id: 'a_resp',
-                    text: "Si ocurre una falla grave, ¿quién es el responsable principal de volver a operar?",
-                    options: [
-                        { label: "Una sola persona", val: 1 },
-                        { label: "Un comité pequeño", val: 3 },
-                        { label: "Varios comités con documentación compartida", val: 5 }
-                    ]
-                },
-                {
-                    id: 'a_obst',
-                    text: "Para usted, el mayor obstáculo para mejorar su BCP/DRP es...",
-                    options: [
-                        { label: "Falta de tiempo y/o personal", val: 1 },
-                        { label: "Falta de presupuesto", val: 3 },
-                        { label: "El proceso actual es demasiado complejo", val: 5 }
-                    ]
-                },
-                {
-                    id: 'a_update',
-                    text: "¿Cuánto tiempo dedica su equipo a actualizar la documentación de BCP/DRP por cambios en los sistemas?",
-                    options: [
-                        { label: "Es una tarea constante", val: 1 },
-                        { label: "Solo con cambios mayores", val: 3 },
-                        { label: "La documentación se genera automáticamente", val: 5 }
-                    ]
-                }
+                { id: 'a_freq', text: "¿Con qué frecuencia se pregunta por los riesgos de inactividad de sus sistemas?", options: [{ label: "Nunca", val: 1 }, { label: "Solo después de un fallo", val: 3 }, { label: "Es un sistema mensual de KPI", val: 5 }] },
+                { id: 'a_resp', text: "Si ocurre una falla grave, ¿quién es el responsable principal de volver a operar?", options: [{ label: "Una sola persona", val: 1 }, { label: "Un comité pequeño", val: 3 }, { label: "Varios comités con documentación compartida", val: 5 }] },
+                { id: 'a_obst', text: "Para usted, el mayor obstáculo para mejorar su BCP/DRP es...", options: [{ label: "Falta de tiempo y/o personal", val: 1 }, { label: "Falta de presupuesto", val: 3 }, { label: "El proceso actual es demasiado complejo", val: 5 }] },
+                { id: 'a_update', text: "¿Cuánto tiempo dedica su equipo a actualizar la documentación de BCP/DRP por cambios en los sistemas?", options: [{ label: "Es una tarea constante", val: 1 }, { label: "Solo con cambios mayores", val: 3 }, { label: "La documentación se genera automáticamente", val: 5 }] }
             ],
             'B': [
-                {
-                    id: 'b_update',
-                    text: "¿Cuánto tiempo dedica su equipo a actualizar la documentación de BCP/DRP por cambios en los sistemas?",
-                    options: [
-                        { label: "Es una tarea constante", val: 1 },
-                        { label: "Solo con cambios mayores", val: 3 },
-                        { label: "La documentación se genera automáticamente", val: 5 }
-                    ]
-                },
-                {
-                    id: 'b_resp',
-                    text: "Si ocurre una falla grave, ¿quién es el responsable principal de volver a operar?",
-                    options: [
-                        { label: "Una sola persona", val: 1 },
-                        { label: "Un comité pequeño", val: 3 },
-                        { label: "Varios comités con documentación compartida", val: 5 }
-                    ]
-                },
-                {
-                    id: 'b_obst',
-                    text: "Para usted, el mayor obstáculo para mejorar su BCP/DRP es...",
-                    options: [
-                        { label: "Falta de tiempo o personal", val: 1 },
-                        { label: "Falta de presupuesto", val: 3 },
-                        { label: "El proceso actual es demasiado complejo", val: 5 }
-                    ]
-                },
-                {
-                    id: 'b_conf',
-                    text: "Si se activa su DRP, ¿qué tan seguro está de que el resultado de la recuperación será el esperado?",
-                    options: [
-                        { label: "Baja confianza, el plan está desactualizado", val: 1 },
-                        { label: "Algo seguro, pero no se ha probado recientemente", val: 3 },
-                        { label: "Muy seguro, lo probamos con frecuencia", val: 5 }
-                    ]
-                },
-                {
-                    id: 'b_prio',
-                    text: "¿Qué prioridad se le da al BCP/DRP frente a proyectos que generan nuevos ingresos?",
-                    options: [
-                        { label: "Es la ultima prioridad", val: 1 },
-                        { label: "Se le da un presupuesto fijo", val: 3 },
-                        { label: "Es una inversión estratégica que se prioriza", val: 5 }
-                    ]
-                },
-                {
-                    id: 'b_auto',
-                    text: "¿Qué porcentaje de sus aplicaciones críticas pueden recuperarse automáticamente?",
-                    options: [
-                        { label: "Casi ninguna", val: 1 },
-                        { label: "Menos de la mitad", val: 3 },
-                        { label: "La mayoría o todas", val: 5 }
-                    ]
-                }
+                { id: 'b_update', text: "¿Cuánto tiempo dedica su equipo a actualizar la documentación de BCP/DRP por cambios en los sistemas?", options: [{ label: "Es una tarea constante", val: 1 }, { label: "Solo con cambios mayores", val: 3 }, { label: "La documentación se genera automáticamente", val: 5 }] },
+                { id: 'b_resp', text: "Si ocurre una falla grave, ¿quién es el responsable principal de volver a operar?", options: [{ label: "Una sola persona", val: 1 }, { label: "Un comité pequeño", val: 3 }, { label: "Varios comités con documentación compartida", val: 5 }] },
+                { id: 'b_obst', text: "Para usted, el mayor obstáculo para mejorar su BCP/DRP es...", options: [{ label: "Falta de tiempo o personal", val: 1 }, { label: "Falta de presupuesto", val: 3 }, { label: "El proceso actual es demasiado complejo", val: 5 }] },
+                { id: 'b_conf', text: "Si se activa su DRP, ¿qué tan seguro está de que el resultado de la recuperación será el esperado?", options: [{ label: "Baja confianza, el plan está desactualizado", val: 1 }, { label: "Algo seguro, pero no se ha probado recientemente", val: 3 }, { label: "Muy seguro, lo probamos con frecuencia", val: 5 }] },
+                { id: 'b_prio', text: "¿Qué prioridad se le da al BCP/DRP frente a proyectos que generan nuevos ingresos?", options: [{ label: "Es la ultima prioridad", val: 1 }, { label: "Se le da un presupuesto fijo", val: 3 }, { label: "Es una inversión estratégica que se prioriza", val: 5 }] },
+                { id: 'b_auto', text: "¿Qué porcentaje de sus aplicaciones críticas pueden recuperarse automáticamente?", options: [{ label: "Casi ninguna", val: 1 }, { label: "Menos de la mitad", val: 3 }, { label: "La mayoría o todas", val: 5 }] }
             ],
             'C': [
-                {
-                    id: 'c_test',
-                    text: "¿Con cuánta frecuencia se realizan pruebas para encontrar formas de reducir el costo de su solución DR?",
-                    options: [
-                        { label: "Nunca se revisa el costo", val: 1 },
-                        { label: "Anualmente", val: 3 },
-                        { label: "Se revisa continuamente y se optimiza", val: 5 }
-                    ]
-                },
-                {
-                    id: 'c_resp',
-                    text: "Si ocurre una falla grave, ¿quién es el responsable principal de volver a operar?",
-                    options: [
-                        { label: "Una sola persona", val: 1 },
-                        { label: "Un comité pequeño", val: 3 },
-                        { label: "Varios comités con documentación compartida", val: 5 }
-                    ]
-                },
-                {
-                    id: 'c_ransom',
-                    text: "¿Su BCP/DRP incluye la recuperación específica de un ataque de ransomware?",
-                    options: [
-                        { label: "No es parte del plan", val: 1 },
-                        { label: "Es un plan separado", val: 3 },
-                        { label: "Está totalmente integrado", val: 5 }
-                    ]
-                },
-                {
-                    id: 'c_conf',
-                    text: "Si se activa su DRP, ¿qué tan seguro está de que el resultado de la recuperación será el esperado?",
-                    options: [
-                        { label: "Baja confianza, el plan está desactualizado", val: 1 },
-                        { label: "Algo seguro, pero no se ha probado recientemente", val: 3 },
-                        { label: "Muy seguro, lo probamos con frecuencia", val: 5 }
-                    ]
-                },
-                {
-                    id: 'c_prio',
-                    text: "¿Qué prioridad se le da al BCP/DRP frente a proyectos que generan nuevos ingresos?",
-                    options: [
-                        { label: "Es la ultima prioridad", val: 1 },
-                        { label: "Se le da un presupuesto fijo", val: 3 },
-                        { label: "Es una inversión estratégica que se prioriza", val: 5 }
-                    ]
-                },
-                {
-                    id: 'c_auto',
-                    text: "¿Qué porcentaje de sus aplicaciones críticas pueden recuperarse automáticamente?",
-                    options: [
-                        { label: "Casi ninguna", val: 1 },
-                        { label: "Menos de la mitad", val: 3 },
-                        { label: "La mayoría o todas", val: 5 }
-                    ]
-                }
+                { id: 'c_test', text: "¿Con cuánta frecuencia se realizan pruebas para encontrar formas de reducir el costo de su solución DR?", options: [{ label: "Nunca se revisa el costo", val: 1 }, { label: "Anualmente", val: 3 }, { label: "Se revisa continuamente y se optimiza", val: 5 }] },
+                { id: 'c_resp', text: "Si ocurre una falla grave, ¿quién es el responsable principal de volver a operar?", options: [{ label: "Una sola persona", val: 1 }, { label: "Un comité pequeño", val: 3 }, { label: "Varios comités con documentación compartida", val: 5 }] },
+                { id: 'c_ransom', text: "¿Su BCP/DRP incluye la recuperación específica de un ataque de ransomware?", options: [{ label: "No es parte del plan", val: 1 }, { label: "Es un plan separado", val: 3 }, { label: "Está totalmente integrado", val: 5 }] },
+                { id: 'c_conf', text: "Si se activa su DRP, ¿qué tan seguro está de que el resultado de la recuperación será el esperado?", options: [{ label: "Baja confianza, el plan está desactualizado", val: 1 }, { label: "Algo seguro, pero no se ha probado recientemente", val: 3 }, { label: "Muy seguro, lo probamos con frecuencia", val: 5 }] },
+                { id: 'c_prio', text: "¿Qué prioridad se le da al BCP/DRP frente a proyectos que generan nuevos ingresos?", options: [{ label: "Es la ultima prioridad", val: 1 }, { label: "Se le da un presupuesto fijo", val: 3 }, { label: "Es una inversión estratégica que se prioriza", val: 5 }] },
+                { id: 'c_auto', text: "¿Qué porcentaje de sus aplicaciones críticas pueden recuperarse automáticamente?", options: [{ label: "Casi ninguna", val: 1 }, { label: "Menos de la mitad", val: 3 }, { label: "La mayoría o todas", val: 5 }] }
             ]
         };
 
@@ -541,32 +333,21 @@
         let answers = {};
         let selectedPath = null;
         let currentCalculatedScore = 0;
-        let currentMaxScore = 40; // Fixed as requested
-        let currentRiskHtml = '';
+        let currentMaxScore = 40; 
+        let currentRiskLevel = '';
+
+        // DOM Elements (exported to window for onclick handlers)
+        window.heroSection = document.getElementById('hero-section');
+        window.wizardSection = document.getElementById('wizard-section');
+        window.loadingSection = document.getElementById('loading-section');
+        window.resultsSection = document.getElementById('results-section');
+        window.questionCard = document.getElementById('question-card');
+        window.progressBar = document.getElementById('progress-bar');
+        window.stepNum = document.getElementById('current-step-num');
+        window.totalSteps = document.getElementById('total-steps');
+        window.factTicker = document.getElementById('fun-fact-ticker');
         
-        // --- POSTMARK CONFIGURATION ---
-        // ATENCION: Este token sera visible si publicas el archivo en Github Pages.
-        // Se recomienda usar un servicio backend o proxy para producción.
-        const POSTMARK_SERVER_TOKEN = 'TU_SERVER_API_TOKEN_AQUI'; 
-        const POSTMARK_SENDER_EMAIL = 'tu_correo_verificado@tuempresa.com'; 
-        const POSTMARK_API_URL = 'https://api.postmarkapp.com/email'; 
-
-        // --- DOM ELEMENTS ---
-        const heroSection = document.getElementById('hero-section');
-        const wizardSection = document.getElementById('wizard-section');
-        const loadingSection = document.getElementById('loading-section');
-        const resultsSection = document.getElementById('results-section');
-        const questionCard = document.getElementById('question-card');
-        const progressBar = document.getElementById('progress-bar');
-        const stepNum = document.getElementById('current-step-num');
-        const totalSteps = document.getElementById('total-steps');
-        const factTicker = document.getElementById('fun-fact-ticker');
-        const printContact = document.getElementById('print-contact');
-        const emailModal = document.getElementById('email-modal');
-
-        // --- APP LOGIC ---
-
-        function init() {
+        window.init = function() {
             const dateOpts = { year: 'numeric', month: 'long', day: 'numeric' };
             document.getElementById('current-date').textContent = new Date().toLocaleDateString('es-ES', dateOpts);
             
@@ -580,31 +361,24 @@
                     factTicker.style.opacity = 1;
                 }, 500);
             }, 6000);
-
-            window.onbeforeprint = () => { printContact.style.display = 'block'; };
-            window.onafterprint = () => { printContact.style.display = 'none'; };
         }
 
-        function startAssessment() {
+        window.startAssessment = function() {
             heroSection.classList.add('hidden');
             wizardSection.classList.remove('hidden');
-            
-            // Initialize with the 2 common questions
             activeQuestions = [...initialQuestions];
             currentStep = 0;
             answers = {};
             selectedPath = null;
-            
             renderQuestion();
         }
 
-        function renderQuestion() {
+        window.renderQuestion = function() {
             const q = activeQuestions[currentStep];
             stepNum.textContent = currentStep + 1;
-            totalSteps.textContent = activeQuestions.length > 2 ? activeQuestions.length : "Calculando..."; // Show dynamic length indicator
+            totalSteps.textContent = activeQuestions.length > 2 ? activeQuestions.length : "Calculando..."; 
             
-            // Adjust progress based on current view of length
-            const totalEstimated = selectedPath ? (2 + paths[selectedPath].length) : 5; // Estimate 5 initially
+            const totalEstimated = selectedPath ? (2 + paths[selectedPath].length) : 5; 
             const progressPct = ((currentStep) / totalEstimated) * 100;
             progressBar.style.width = `${progressPct}%`;
 
@@ -614,14 +388,11 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             `;
 
-            // Adjust grid for text heavy options or many options
             const gridClass = q.options.length > 3 ? "md:grid-cols-1" : "md:grid-cols-3";
             html = html.replace("md:grid-cols-2", gridClass);
 
             q.options.forEach((opt, idx) => {
-                // Pass the value as a string if it's a path letter, or int if it's score
                 const valArg = typeof opt.val === 'string' ? `'${opt.val}'` : opt.val;
-                
                 html += `
                     <div onclick="selectAnswer('${q.id}', ${valArg})" 
                          class="cursor-pointer group relative bg-white border-2 border-slate-100 rounded-xl p-6 hover:border-blue-500 hover:shadow-lg transition-all duration-200 flex flex-col items-center text-center h-full justify-center">
@@ -632,27 +403,22 @@
                     </div>
                 `;
             });
-
             html += `</div>`;
 
             questionCard.classList.remove('scale-in');
-            void questionCard.offsetWidth; // trigger reflow
+            void questionCard.offsetWidth;
             questionCard.classList.add('scale-in');
             questionCard.innerHTML = html;
         }
 
-        function selectAnswer(qid, val) {
+        window.selectAnswer = function(qid, val) {
             answers[qid] = val;
-
-            // Handle Branching Logic for Question 2
             if (qid === 'structure') {
-                selectedPath = val; // 'A', 'B', or 'C'
-                // Append the path-specific questions to the active list
+                selectedPath = val;
                 if (paths[selectedPath]) {
                     activeQuestions = activeQuestions.concat(paths[selectedPath]);
                 }
             }
-
             if (currentStep < activeQuestions.length - 1) {
                 currentStep++;
                 setTimeout(renderQuestion, 200);
@@ -661,10 +427,9 @@
             }
         }
 
-        function finishAssessment() {
+        window.finishAssessment = function() {
             wizardSection.classList.add('hidden');
             loadingSection.classList.remove('hidden');
-
             let count = 0;
             const loadingFacts = setInterval(() => {
                 document.getElementById('loading-fact').textContent = funFacts[Math.floor(Math.random() * funFacts.length)];
@@ -676,23 +441,15 @@
                 calculateResults();
                 loadingSection.classList.add('hidden');
                 resultsSection.classList.remove('hidden');
-                animateScore();
+                // animateScore removed here as it is handled via CSS in updateDashboard
             }, 3000);
         }
 
-        function calculateResults() {
+        window.calculateResults = function() {
             let totalPoints = 0;
-            // The max score is fixed at 40 as requested, ignoring the "real" path max
             const fixedMaxScore = 40;
-
-            // 1. Calculate Question 1 (Impact)
-            if (answers['impact']) {
-                totalPoints += answers['impact'];
-            }
-
-            // 2. Question 2 (Structure) has 0 points
-
-            // 3. Path specific questions
+            if (answers['impact']) totalPoints += answers['impact'];
+            
             const pathQs = paths[selectedPath];
             if (pathQs) {
                 pathQs.forEach(q => {
@@ -700,174 +457,73 @@
                     if (val) totalPoints += val;
                 });
             }
-
-            // Direct Sum Logic, normalized against fixed 40
             currentCalculatedScore = totalPoints;
             currentMaxScore = fixedMaxScore;
-            
             updateDashboard(totalPoints, fixedMaxScore);
         }
 
-        function updateDashboard(score, maxScore) {
+        window.updateDashboard = function(score, maxScore) {
             document.getElementById('final-score').textContent = score;
             document.getElementById('max-possible-score').textContent = maxScore;
             
-            // Gauge Animation
-            // Percentage calculated just for the visual circle filling (score / 40)
             const percentage = score / maxScore; 
             const circle = document.getElementById('score-circle');
             const circumference = 552; 
             const offset = circumference - (percentage * circumference);
-            
             setTimeout(() => { circle.style.strokeDashoffset = offset; }, 500);
 
-            // UI Elements
             const badge = document.getElementById('score-badge');
             const desc = document.getElementById('score-description');
-            const statusCard = document.getElementById('status-card');
-            const risksList = document.getElementById('risks-list');
-            const oppsList = document.getElementById('opportunities-list');
             const pitchText = document.getElementById('pitch-text');
-            const pitchImage = document.getElementById('pitch-image');
             const circleColor = document.getElementById('score-circle');
 
-            let riskHtml = '';
-            let oppHtml = '';
-
-            // Thresholds based on Percentage of Max Score (40)
             const scorePct = (score / maxScore) * 100;
 
             if (scorePct <= 50) {
-                // Critical
+                currentRiskLevel = 'Crítico';
                 badge.className = "px-4 py-1 rounded-full text-sm font-bold bg-red-100 text-red-700";
                 badge.textContent = "Nivel Crítico";
                 circleColor.classList.add('text-red-600');
                 circleColor.classList.remove('text-blue-600');
-                
                 desc.textContent = "Su organización opera bajo un riesgo inminente. La falta de automatización y procesos manuales son puntos críticos de falla.";
-                
-                statusCard.className = "bg-white rounded-2xl shadow-sm border-l-4 border-red-500 p-6 flex items-start gap-4 print-break-inside";
-                statusCard.innerHTML = `
-                    <div class="bg-red-50 p-2 rounded-full text-red-600"><span class="material-symbols-outlined">report</span></div>
-                    <div>
-                        <h4 class="font-bold text-red-700">Atención Inmediata Requerida</h4>
-                        <p class="text-sm text-slate-600 mt-1">Sus respuestas indican una alta dependencia manual y falta de pruebas formales.</p>
-                    </div>
-                `;
-
-                riskHtml = `
-                    <li class="flex items-start gap-2"><span class="text-red-500 mt-0.5">•</span><span>Alta probabilidad de error humano en recuperación.</span></li>
-                    <li class="flex items-start gap-2"><span class="text-red-500 mt-0.5">•</span><span>Documentación estática que no refleja la realidad.</span></li>
-                    <li class="flex items-start gap-2"><span class="text-red-500 mt-0.5">•</span><span>Tiempos de recuperación (RTO) impredecibles.</span></li>
-                `;
-                oppHtml = `
-                    <li class="flex items-start gap-2"><span class="text-green-500 mt-0.5">•</span><span>Implementación de scripts básicos de recuperación.</span></li>
-                    <li class="flex items-start gap-2"><span class="text-green-500 mt-0.5">•</span><span>Definición de comités de crisis (no depender de una persona).</span></li>
-                `;
-
-                pitchText.textContent = "Su puntaje indica que un incidente menor podría convertirse en una crisis mayor. BCMEX puede ayudarle a estructurar su primer plan de respuesta automatizada en menos de 4 semanas.";
-                pitchImage.src = "https://images.unsplash.com/photo-1590856029826-c7a73142bbf1?q=80&w=2073&auto=format&fit=crop";
-
+                pitchText.textContent = "Su puntaje indica que un incidente menor podría convertirse en una crisis mayor.";
             } else if (scorePct <= 80) {
-                // Warning
+                currentRiskLevel = 'En Desarrollo';
                 badge.className = "px-4 py-1 rounded-full text-sm font-bold bg-orange-100 text-orange-700";
                 badge.textContent = "En Desarrollo";
                 circleColor.classList.add('text-orange-500');
                 circleColor.classList.remove('text-blue-600');
-
                 desc.textContent = "Tiene las herramientas, pero faltan integración y pruebas. Su plan puede existir, pero la confianza en su ejecución es moderada.";
-
-                statusCard.className = "bg-white rounded-2xl shadow-sm border-l-4 border-orange-500 p-6 flex items-start gap-4 print-break-inside";
-                statusCard.innerHTML = `
-                    <div class="bg-orange-50 p-2 rounded-full text-orange-600"><span class="material-symbols-outlined">build</span></div>
-                    <div>
-                        <h4 class="font-bold text-orange-700">Optimización Necesaria</h4>
-                        <p class="text-sm text-slate-600 mt-1">Existe una base, pero la falta de automatización y pruebas continuas genera incertidumbre.</p>
-                    </div>
-                `;
-
-                riskHtml = `
-                    <li class="flex items-start gap-2"><span class="text-orange-500 mt-0.5">•</span><span>El plan no se prueba con suficiente frecuencia.</span></li>
-                    <li class="flex items-start gap-2"><span class="text-orange-500 mt-0.5">•</span><span>Brecha entre la documentación y los sistemas reales.</span></li>
-                `;
-                oppHtml = `
-                    <li class="flex items-start gap-2"><span class="text-green-500 mt-0.5">•</span><span>Automatización de playbooks de recuperación.</span></li>
-                    <li class="flex items-start gap-2"><span class="text-green-500 mt-0.5">•</span><span>Programa de simulacros semestrales BCMEX.</span></li>
-                `;
-
-                pitchText.textContent = "Está a mitad de camino. BCMEX se especializa en llevar empresas del 'papel a la práctica'. Nuestro servicio de Auditoría y Simulación pondrá a prueba sus sistemas actuales para cerrar las brechas antes de que sea tarde.";
-                pitchImage.src = "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop";
-
+                pitchText.textContent = "Está a mitad de camino. BCMEX se especializa en llevar empresas del 'papel a la práctica'.";
             } else {
-                // Mature
+                currentRiskLevel = 'Madurez Alta';
                 badge.className = "px-4 py-1 rounded-full text-sm font-bold bg-green-100 text-green-700";
                 badge.textContent = "Madurez Alta";
                 circleColor.classList.add('text-green-500');
                 circleColor.classList.remove('text-blue-600');
-
                 desc.textContent = "¡Excelente nivel de madurez! Su enfoque automatizado y proactivo lo pone por delante de la competencia.";
-
-                statusCard.className = "bg-white rounded-2xl shadow-sm border-l-4 border-green-500 p-6 flex items-start gap-4 print-break-inside";
-                statusCard.innerHTML = `
-                    <div class="bg-green-50 p-2 rounded-full text-green-600"><span class="material-symbols-outlined">security</span></div>
-                    <div>
-                        <h4 class="font-bold text-green-700">Líder en Resiliencia</h4>
-                        <p class="text-sm text-slate-600 mt-1">Su enfoque es proactivo. Ahora debe enfocarse en la mejora continua y cumplimiento normativo.</p>
-                    </div>
-                `;
-
-                riskHtml = `
-                    <li class="flex items-start gap-2"><span class="text-yellow-500 mt-0.5">•</span><span>Complacencia ante nuevas ciberamenazas (Ransomware avanzado).</span></li>
-                    <li class="flex items-start gap-2"><span class="text-yellow-500 mt-0.5">•</span><span>Optimización de costos en soluciones de DR.</span></li>
-                `;
-                oppHtml = `
-                    <li class="flex items-start gap-2"><span class="text-green-500 mt-0.5">•</span><span>Certificación ISO 22301 con consultoría BCMEX.</span></li>
-                    <li class="flex items-start gap-2"><span class="text-green-500 mt-0.5">•</span><span>Threat Intelligence para anticipar vectores de ataque.</span></li>
-                `;
-
-                pitchText.textContent = "Incluso los mejores necesitan mantenerse afilados. BCMEX ofrece servicios de 'Threat Intelligence' y cumplimiento normativo para asegurar que su alta madurez se mantenga frente a amenazas de próxima generación.";
-                pitchImage.src = "https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=1470&auto=format&fit=crop";
+                pitchText.textContent = "Incluso los mejores necesitan mantenerse afilados. BCMEX ofrece servicios de 'Threat Intelligence'.";
             }
-            
-            currentRiskHtml = `
-                <h3>Riesgos Identificados:</h3>
-                <ul>${riskHtml}</ul>
-                <h3>Oportunidades:</h3>
-                <ul>${oppHtml}</ul>
-            `;
-
-            risksList.innerHTML = riskHtml;
-            oppsList.innerHTML = oppHtml;
         }
 
-        function animateScore() {
-            // Animation logic handled by CSS transitions in updateDashboard
-        }
-
-        function resetApp() {
+        window.resetApp = function() {
             heroSection.classList.remove('hidden');
             wizardSection.classList.add('hidden');
             resultsSection.classList.add('hidden');
             loadingSection.classList.add('hidden');
-            
             const circle = document.getElementById('score-circle');
             circle.style.strokeDashoffset = 552;
             circle.classList.remove('text-red-600', 'text-orange-500', 'text-green-500');
             circle.classList.add('text-blue-600');
         }
 
-        function openEmailModal() {
-            emailModal.classList.remove('hidden');
-            emailModal.classList.add('flex');
-        }
+        window.handleInlineSubmit = async function() {
+            if (!firebaseInitialized) {
+                alert("Error: Firebase no está configurado. Por favor agregue su API Key en el código.");
+                return;
+            }
 
-        function closeEmailModal() {
-            emailModal.classList.add('hidden');
-            emailModal.classList.remove('flex');
-        }
-
-        function handleEmailSubmit() {
-            const emailInput = document.getElementById('user-email-input');
+            const emailInput = document.getElementById('inline-user-email');
             const email = emailInput.value;
             
             if (!email || !email.includes('@')) {
@@ -875,88 +531,64 @@
                 return;
             }
 
-            const btn = document.getElementById('btn-send-email-action');
+            const btn = document.getElementById('btn-inline-submit');
             const originalText = btn.innerHTML;
             btn.innerHTML = `<span class="animate-spin material-symbols-outlined">progress_activity</span> Enviando...`;
             btn.disabled = true;
 
-            sendToPostmark(email)
-                .then(response => {
-                    if (response.ok) {
-                        alert(`¡Reporte enviado exitosamente a ${email}!`);
-                        closeEmailModal();
-                    } else {
-                        console.error("Postmark Error:", response);
-                        alert("Error al enviar. Nota técnica: Las llamadas directas a Postmark desde navegador suelen bloquearse por CORS.");
+            try {
+                // Ensure auth - attempt it, but proceed even if it fails
+                if (!auth.currentUser) {
+                    try {
+                        await signInAnonymously(auth);
+                    } catch (e) {
+                        console.warn("Could not auth anonymously, attempting save anyway:", e);
                     }
-                })
-                .catch(error => {
-                    console.error("Error de red:", error);
-                    alert("Error de conexión (posible bloqueo CORS).");
-                })
-                .finally(() => {
-                    btn.innerHTML = originalText;
-                    btn.disabled = false;
+                }
+
+                const answersListRef = ref(db, 'respuestas_bcmex');
+                const newAnswerRef = push(answersListRef);
+                
+                await set(newAnswerRef, {
+                    email: email,
+                    score: currentCalculatedScore,
+                    maxScore: currentMaxScore,
+                    level: currentRiskLevel,
+                    path: selectedPath,
+                    date: serverTimestamp(),
+                    answers: answers
                 });
+
+                alert("¡Hemos recibido tus datos! Te enviaremos los detalles completos a tu correo pronto.");
+                emailInput.value = '';
+
+            } catch (error) {
+                console.error("Firebase save error:", error);
+                if (error.code === 'PERMISSION_DENIED') {
+                    alert("Error de permisos: No se pudo guardar. Si no ha habilitado Authentication en Firebase Console, cambie sus reglas de base de datos a '.write': true.");
+                } else {
+                    alert("Hubo un error al guardar: " + error.message);
+                }
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
         }
 
-        function generateEmailBody() {
-            return `
-                <html>
-                <body style="font-family: Arial, sans-serif; color: #333;">
-                    <div style="background-color: #f8fafc; padding: 20px; text-align: center;">
-                        <h1 style="color: #1e3a8a;">BCMEX - Reporte de Madurez</h1>
-                    </div>
-                    <div style="padding: 20px; max-width: 600px; margin: 0 auto;">
-                        <p>Hola,</p>
-                        <p>Gracias por completar el diagnóstico de continuidad de negocio de BCMEX.</p>
-                        <div style="background-color: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; margin: 20px 0; text-align: center;">
-                            <h2 style="margin: 0; color: #64748b; font-size: 14px; text-transform: uppercase;">Su Puntaje</h2>
-                            <div style="font-size: 48px; font-weight: bold; color: #2563eb; margin: 10px 0;">${currentCalculatedScore} / ${currentMaxScore}</div>
-                        </div>
-                        ${currentRiskHtml}
-                        <hr style="border: 0; border-top: 1px solid #eee; margin: 30px 0;">
-                        <p style="font-size: 12px; color: #999;">Este es un mensaje automático de BCMEX Solutions.</p>
-                    </div>
-                </body>
-                </html>
-            `;
-        }
-
-        function sendToPostmark(recipientEmail) {
-            const payload = {
-                "From": POSTMARK_SENDER_EMAIL,
-                "To": recipientEmail,
-                "Subject": `Su Diagnóstico BCMEX - Puntaje: ${currentCalculatedScore}/${currentMaxScore}`,
-                "HtmlBody": generateEmailBody(),
-                "MessageStream": "outbound"
-            };
-
-            return fetch(POSTMARK_API_URL, {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'X-Postmark-Server-Token': POSTMARK_SERVER_TOKEN
-                },
-                body: JSON.stringify(payload)
-            });
-        }
-
-        function downloadFullSourceBundle() {
+        window.downloadFullSourceBundle = function() {
             const htmlSource = document.documentElement.outerHTML;
             const blob = new Blob([htmlSource], { type: 'text/html' });
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'bcmex_app_branched.html';
+            a.download = 'bcmex_app_firebase.html';
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
             window.URL.revokeObjectURL(url);
         }
 
+        // Init
         document.addEventListener('DOMContentLoaded', init);
-
     </script>
 </body></html>
