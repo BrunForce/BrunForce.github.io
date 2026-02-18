@@ -52,47 +52,65 @@
 <link type="text/css" href="https://fonts.googleapis.com/css2?family=Google+Symbols:opsz,wght,FILL,GRAD,ROND@24,400,0,0,50&amp;icon_names=link" rel="stylesheet"></head>
 <body class="text-slate-800 h-screen overflow-hidden flex flex-col">
 <!-- Navbar -->
-<nav class="w-full bg-white/90 backdrop-blur-md border-b border-slate-200 fixed top-0 z-50 h-16 flex items-center justify-between px-6 lg:px-12 shadow-sm no-print">
-<div class="flex items-center gap-2 cursor-pointer" onclick="resetApp()">
+<nav class="w-full bg-white/95 backdrop-blur-md border-b border-slate-100 fixed top-0 z-50 h-20 flex items-center justify-between px-6 lg:px-12 shadow-sm no-print">
+<div class="flex items-center gap-3 cursor-pointer" onclick="resetApp()">
 <!-- Logo Imagen -->
-<img class="h-10 w-auto" src="logo1.png" alt="Logo BCMEX">
-<span class="text-xl font-bold tracking-tight text-slate-900">BCMEX</span>
+<img class="h-12 w-auto object-contain" src="logo1.png" alt="Logo BCMEX">
 </div>
-<button class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-full text-sm font-medium transition shadow-lg shadow-blue-200">
+<button class="bg-[#0ea5e9] hover:bg-[#0284c7] text-white px-6 py-2.5 rounded-full text-sm font-bold transition shadow-md">
             Contáctanos
         </button>
 </nav>
 
 <!-- Main Content Area -->
-<main class="flex-1 mt-16 relative overflow-hidden flex flex-col" id="app-container">
+<main class="flex-1 mt-20 relative overflow-hidden flex flex-col" id="app-container">
 <!-- Hero Section -->
-<section class="absolute inset-0 z-10 flex items-center justify-center bg-slate-50" id="hero-section">
+<section class="absolute inset-0 z-10 flex items-center justify-center bg-slate-900" id="hero-section">
 
     <!-- Background Image Container -->
     <div class="absolute inset-0 overflow-hidden">
-        <!-- Sin opacity para quitar filtro blanco -->
+        <!-- Imagen de fondo sin opacidad para mantener los colores originales oscuros -->
         <img alt="Background" class="w-full h-full object-cover" src="background1.png">
+        <!-- Gradiente sutil para asegurar legibilidad si la imagen es clara en el centro -->
+        <div class="absolute inset-0 bg-slate-900/30"></div>
     </div>
 
-    <!-- Content Wrapper (ESTE DIV FALTABA y es el que centra el texto y lo pone sobre la imagen) -->
-    <div class="relative z-20 max-w-4xl text-center px-6">
-        <div class="inline-flex items-center gap-2 bg-blue-50 border border-blue-100 px-4 py-1 rounded-full text-blue-700 text-sm font-semibold mb-6 animate-pulse">
-            <span class="w-2 h-2 rounded-full bg-blue-600"></span>
-            Evaluación Gratuita 2025
-        </div>
-        <h1 class="text-5xl md:text-6xl font-bold text-slate-900 mb-6 leading-tight slide-up">
-            ¿Qué tan resiliente es tu negocio ante el <span class="gradient-text">caos?</span>
+    <!-- Content Wrapper -->
+    <div class="relative z-20 max-w-5xl text-center px-6 flex flex-col items-center">
+        
+        <!-- Main Title -->
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-8 leading-tight tracking-tight slide-up drop-shadow-lg">
+            ¿Qué tan resiliente es tu<br class="hidden md:block">
+            negocio ante el caos?
         </h1>
-        <p class="text-lg md:text-xl text-slate-600 mb-10 max-w-2xl mx-auto leading-relaxed slide-up" style="animation-delay: 0.1s;">
-            Descubre tu Puntaje de Continuidad de Negocio (BCP) en menos de 2 minutos. Identifica brechas críticas antes de que se conviertan en desastres.
+
+        <!-- Separator Line -->
+        <div class="w-full max-w-2xl h-1 bg-[#3b82f6] rounded-full mb-8 opacity-80 slide-up" style="animation-delay: 0.1s;"></div>
+
+        <!-- Subtitle (Strong) -->
+        <h2 class="text-2xl md:text-3xl font-bold text-white mb-4 slide-up drop-shadow-md" style="animation-delay: 0.2s;">
+            Obtén tu puntaje de BCP en solo 2 minutos.
+        </h2>
+
+        <!-- Description (Light) -->
+        <p class="text-lg md:text-xl text-slate-200 mb-12 font-light slide-up drop-shadow-md" style="animation-delay: 0.3s;">
+            Identifica brechas antes de que se conviertan en desastres.
         </p>
-        <button class="group relative bg-blue-600 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-xl shadow-blue-200 hover:shadow-2xl hover:bg-blue-700 transition-all transform hover:-translate-y-1 overflow-hidden slide-up" onclick="startAssessment()" style="animation-delay: 0.2s;">
-            <span class="relative z-10 flex items-center gap-2">
-                Iniciar Diagnóstico
-                <span class="material-symbols-outlined group-hover:translate-x-1 transition">arrow_forward</span>
-            </span>
-            <div class="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+
+        <!-- CTA Button -->
+        <button class="group relative bg-gradient-to-r from-[#06b6d4] to-[#2563eb] text-white px-10 py-4 rounded-lg font-bold text-lg shadow-xl shadow-blue-900/50 hover:shadow-2xl hover:scale-105 transition-all duration-300 slide-up flex items-center gap-2" onclick="startAssessment()" style="animation-delay: 0.4s;">
+            <span>Iniciar Diagnóstico</span>
+            <span class="material-symbols-outlined text-2xl group-hover:translate-x-1 transition-transform">chevron_right</span>
         </button>
+        
+        <!-- Dev Export Button (Hidden for production aesthetics, keeping functional) -->
+        <div class="fixed bottom-4 left-4 z-30 opacity-50 hover:opacity-100 transition-opacity no-print">
+            <button class="flex items-center gap-2 bg-black/50 hover:bg-black/80 text-white/70 hover:text-white px-3 py-2 rounded text-xs font-mono border border-white/10 transition" onclick="downloadFullSourceBundle()">
+                <span class="material-symbols-outlined text-sm">code</span>
+                <span class="hidden sm:inline">Export Source</span>
+            </button>
+        </div>
+
     </div>
 
 </section>
