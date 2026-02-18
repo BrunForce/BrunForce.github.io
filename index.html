@@ -393,8 +393,10 @@
 
             q.options.forEach((opt, idx) => {
                 const valArg = typeof opt.val === 'string' ? `'${opt.val}'` : opt.val;
+                // Escape single quotes for the inline onclick handler
+                const labelArg = opt.label.replace(/'/g, "\\'");
                 html += `
-                    <div onclick="selectAnswer('${q.id}', ${valArg})" 
+                    <div onclick="selectAnswer('${q.id}', ${valArg}, '${labelArg}')" 
                          class="cursor-pointer group relative bg-white border-2 border-slate-100 rounded-xl p-6 hover:border-blue-500 hover:shadow-lg transition-all duration-200 flex flex-col items-center text-center h-full justify-center">
                         ${opt.icon ? `<span class="material-symbols-outlined text-4xl text-slate-300 group-hover:text-blue-500 mb-4 transition-colors">${opt.icon}</span>` : ''}
                         ${!opt.icon ? `<div class="w-10 h-10 rounded-full bg-slate-50 text-slate-400 flex items-center justify-center font-bold mb-4 group-hover:bg-blue-100 group-hover:text-blue-600 transition">${idx + 1}</div>` : ''}
@@ -411,8 +413,10 @@
             questionCard.innerHTML = html;
         }
 
-        window.selectAnswer = function(qid, val) {
-            answers[qid] = val;
+        window.selectAnswer = function(qid, val, label) {
+            // Guardamos un objeto con valor y etiqueta para tener el contexto completo en la BD
+            answers[qid] = { value: val, label: label };
+            
             if (qid === 'structure') {
                 selectedPath = val;
                 if (paths[selectedPath]) {
@@ -448,13 +452,19 @@
         window.calculateResults = function() {
             let totalPoints = 0;
             const fixedMaxScore = 40;
-            if (answers['impact']) totalPoints += answers['impact'];
+            
+            // Accedemos a .value porque answers[id] ahora es un objeto {value, label}
+            if (answers['impact'] && typeof answers['impact'].value === 'number') {
+                totalPoints += answers['impact'].value;
+            }
             
             const pathQs = paths[selectedPath];
             if (pathQs) {
                 pathQs.forEach(q => {
-                    const val = answers[q.id];
-                    if (val) totalPoints += val;
+                    const ans = answers[q.id];
+                    if (ans && typeof ans.value === 'number') {
+                        totalPoints += ans.value;
+                    }
                 });
             }
             currentCalculatedScore = totalPoints;
