@@ -52,47 +52,56 @@
 <link type="text/css" href="https://fonts.googleapis.com/css2?family=Google+Symbols:opsz,wght,FILL,GRAD,ROND@24,400,0,0,50&amp;icon_names=link" rel="stylesheet"></head>
 <body class="text-slate-800 h-screen overflow-hidden flex flex-col">
 <!-- Navbar -->
-<nav class="w-full bg-white/90 backdrop-blur-md border-b border-slate-200 fixed top-0 z-50 h-16 flex items-center justify-between px-6 lg:px-12 shadow-sm no-print">
-<div class="flex items-center gap-2 cursor-pointer" onclick="resetApp()">
-<!-- Logo Imagen -->
-<img class="h-10 w-auto" src="logo1.png" alt="Logo BCMEX">
-<span class="text-xl font-bold tracking-tight text-slate-900">BCMEX</span>
+<nav class="w-full bg-white/95 backdrop-blur-md border-b border-slate-100 fixed top-0 z-50 h-20 flex items-center justify-between px-6 lg:px-12 shadow-sm no-print">
+<div class="flex items-center gap-3 cursor-pointer" onclick="resetApp()">
+<!-- Logo Imagen SOLA (Sin texto BCMEX al lado) -->
+<img class="h-12 w-auto object-contain" src="logo1.png" alt="Logo BCMEX">
 </div>
-<button class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-full text-sm font-medium transition shadow-lg shadow-blue-200">
+<button class="bg-[#0ea5e9] hover:bg-[#0284c7] text-white px-6 py-2.5 rounded-full text-sm font-bold transition shadow-md">
             Contáctanos
         </button>
 </nav>
 
 <!-- Main Content Area -->
-<main class="flex-1 mt-16 relative overflow-hidden flex flex-col" id="app-container">
+<main class="flex-1 mt-20 relative overflow-hidden flex flex-col" id="app-container">
 <!-- Hero Section -->
-<section class="absolute inset-0 z-10 flex items-center justify-center bg-slate-50" id="hero-section">
+<section class="absolute inset-0 z-10 flex items-center justify-center bg-slate-900" id="hero-section">
 
     <!-- Background Image Container -->
     <div class="absolute inset-0 overflow-hidden">
-        <!-- Sin opacity para quitar filtro blanco -->
         <img alt="Background" class="w-full h-full object-cover" src="background1.png">
+        <!-- Gradiente oscuro para asegurar legibilidad de letras blancas -->
+        <div class="absolute inset-0 bg-slate-900/40"></div>
     </div>
 
     <!-- Content Wrapper -->
-    <div class="relative z-20 max-w-4xl text-center px-6">
-        <div class="inline-flex items-center gap-2 bg-blue-50 border border-blue-100 px-4 py-1 rounded-full text-blue-700 text-sm font-semibold mb-6 animate-pulse">
-            <span class="w-2 h-2 rounded-full bg-blue-600"></span>
-            Evaluación Gratuita 2025
-        </div>
-        <h1 class="text-5xl md:text-6xl font-bold text-slate-900 mb-6 leading-tight slide-up">
-            ¿Qué tan resiliente es tu negocio ante el <span class="gradient-text">caos?</span>
+    <div class="relative z-20 max-w-5xl text-center px-6 flex flex-col items-center">
+        
+        <!-- Main Title -->
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-8 leading-tight tracking-tight slide-up drop-shadow-lg">
+            ¿Qué tan resiliente es tu<br class="hidden md:block">
+            negocio ante el caos?
         </h1>
-        <p class="text-lg md:text-xl text-slate-600 mb-10 max-w-2xl mx-auto leading-relaxed slide-up" style="animation-delay: 0.1s;">
-            Descubre tu Puntaje de Continuidad de Negocio (BCP) en menos de 2 minutos. Identifica brechas críticas antes de que se conviertan en desastres.
+
+        <!-- Separator Line (Azul delgada) -->
+        <div class="w-full max-w-2xl h-0.5 bg-blue-500 rounded-full mb-8 opacity-80 slide-up" style="animation-delay: 0.1s;"></div>
+
+        <!-- Subtitle (Strong) -->
+        <h2 class="text-2xl md:text-3xl font-bold text-white mb-4 slide-up drop-shadow-md italic" style="animation-delay: 0.2s;">
+            Obtén tu puntaje de BCP en solo 2 minutos.
+        </h2>
+
+        <!-- Description (Light) -->
+        <p class="text-lg md:text-xl text-slate-300 mb-12 font-light slide-up drop-shadow-md" style="animation-delay: 0.3s;">
+            Identifica brechas antes de que se conviertan en desastres.
         </p>
-        <button class="group relative bg-blue-600 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-xl shadow-blue-200 hover:shadow-2xl hover:bg-blue-700 transition-all transform hover:-translate-y-1 overflow-hidden slide-up" onclick="startAssessment()" style="animation-delay: 0.2s;">
-            <span class="relative z-10 flex items-center gap-2">
-                Iniciar Diagnóstico
-                <span class="material-symbols-outlined group-hover:translate-x-1 transition">arrow_forward</span>
-            </span>
-            <div class="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+
+        <!-- CTA Button -->
+        <button class="group relative bg-gradient-to-r from-[#06b6d4] to-[#2563eb] text-white px-10 py-4 rounded-lg font-bold text-lg shadow-xl shadow-blue-900/50 hover:shadow-2xl hover:scale-105 transition-all duration-300 slide-up flex items-center gap-2" onclick="startAssessment()" style="animation-delay: 0.4s;">
+            <span>Iniciar Diagnóstico</span>
+            <span class="material-symbols-outlined text-2xl group-hover:translate-x-1 transition-transform">chevron_right</span>
         </button>
+        
     </div>
 
 </section>
@@ -132,7 +141,7 @@
 <span class="material-symbols-outlined absolute inset-0 flex items-center justify-center text-blue-600 text-3xl">smart_toy</span>
 </div>
 <h2 class="text-2xl font-bold text-slate-900 mb-2">Analizando sus respuestas...</h2>
-<p class="text-slate-500 max-w-md mx-auto mb-8" id="loading-text">Calculando puntuación total y factores de riesgo...</p>
+<p class="text-slate-500 max-w-md mx-auto mb-8" id="loading-text">Calculando puntaje de resiliencia...</p>
 <div class="bg-blue-50 border border-blue-100 p-6 rounded-xl max-w-lg w-full text-left">
 <div class="flex items-start gap-3">
 <span class="material-symbols-outlined text-blue-600 mt-1">lightbulb</span>
@@ -147,7 +156,7 @@
 <!-- Results Dashboard -->
 <section class="absolute inset-0 z-40 hidden bg-slate-50 overflow-y-auto" id="results-section">
 <div class="bg-slate-900 text-white pt-12 pb-24 px-6 relative overflow-hidden print-break-inside">
-<img class="absolute inset-0 w-full h-full object-cover opacity-10 mix-blend-overlay print-header-image" src="https://images.unsplash.com/photo-1558494949-efc535b5fa12?q=80&w=2070&auto=format&fit=crop">
+<img class="absolute inset-0 w-full h-full object-cover opacity-10 mix-blend-overlay print-header-image" src="background1.png">
 <div class="max-w-6xl mx-auto relative z-10 flex flex-col md:flex-row justify-between items-end gap-6">
 <div>
 <h2 class="text-3xl font-bold mb-2">Diagnóstico de Madurez BCP</h2>
@@ -194,7 +203,7 @@
 </div>
 </div>
 
-<!-- BCMEX Service Pitch (Kept but simplified) -->
+<!-- BCMEX Service Pitch -->
 <div class="mt-8 bg-gradient-to-r from-blue-900 to-slate-900 rounded-2xl p-8 text-white relative overflow-hidden shadow-xl print-break-inside no-print">
 <div class="absolute top-0 right-0 w-64 h-64 bg-blue-500 rounded-full mix-blend-overlay filter blur-3xl opacity-20 -mr-16 -mt-16"></div>
 <div class="relative z-10 flex flex-col md:flex-row items-center gap-8">
@@ -219,8 +228,7 @@
 
 </main>
 <script type="module">
-        // Import Firebase SDKs (Modular v9+)
-        // Changed to Realtime Database SDKs as requested
+        // Import Firebase SDKs
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
         import { getDatabase, ref, push, set, serverTimestamp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js';
         import { getAuth, signInAnonymously } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
@@ -229,8 +237,6 @@
         const firebaseConfig = {
             apiKey: "AIzaSyC-IFIyAI-I-tIkDkljoqdBqh7c94ObHcc",
             authDomain: "bcmexbcp.firebaseapp.com",
-            // IMPORTANT: This URL is derived from your project ID.
-            // If it fails, check the Realtime Database section in Firebase Console for the correct URL.
             databaseURL: "https://bcmexbcp-default-rtdb.firebaseio.com",
             projectId: "bcmexbcp",
             storageBucket: "bcmexbcp.firebasestorage.app",
@@ -245,20 +251,20 @@
 
         try {
             const app = initializeApp(firebaseConfig);
-            db = getDatabase(app); // Use Realtime Database
+            db = getDatabase(app); 
             auth = getAuth(app);
             firebaseInitialized = true;
             
-            // Try to sign in silently. If it fails due to config (not enabled in console), catch it silently.
             signInAnonymously(auth).catch((error) => {
-                console.warn("Auth Warning: Could not sign in anonymously. Ensure Authentication is enabled in Firebase Console if using auth rules.", error.code);
+                console.warn("Auth Warning: Could not sign in anonymously.", error.code);
             });
         } catch (e) {
             console.error("Firebase init failed:", e);
         }
 
         // --- APP DATA & LOGIC ---
-        // PHASE 1: PROSPECTION (NO SCORE)
+        
+        // PHASE 1: PROSPECTION (NO SCORE) - From prosp.txt
         const prospectingQuestions = [
             {
                 id: 'p1_market',
@@ -329,29 +335,29 @@
             }
         ];
 
-        // PHASE 2: CORE ASSESSMENT (SCORED)
+        // PHASE 2: CORE ASSESSMENT (SCORED) - From questionary.txt
         const coreQuestions = [
             {
                 id: 'q1_financial',
-                text: "Considerando la duración estimada de una interrupción en sus procesos clave, ¿qué nivel de pérdida financiera generaría?",
+                text: "Considerando la duración estimada de una interrupción en sus procesos clave, ¿qué nivel de pérdida financiera generaría para la organización?",
                 type: 'standard',
                 options: [
                     { label: "Afectación económica marginal o absorbible", val: 1 },
                     { label: "Costos moderados atribuibles a disminución de productividad", val: 2 },
                     { label: "Pérdidas financieras relevantes o riesgo de penalidades contractuales", val: 3 },
-                    { label: "Impacto económico considerable con afectación a ingresos", val: 4 },
-                    { label: "Pérdidas críticas que terminan en desconfianza y bajas", val: 5 }
+                    { label: "Impacto económico considerable con afectación a ingresos o al presupuesto operativo", val: 4 },
+                    { label: "Pérdidas críticas que terminan en la desconfianza de proveedores y bajas en los clientes", val: 5 }
                 ]
             },
             {
                 id: 'q2_operational',
-                text: "Si ocurre un incidente crítico en sus procesos clave, ¿Cuál sería el nivel de interrupción operativa?",
+                text: "Si ocurre un incidente crítico en sus procesos clave, ¿Cuál sería el nivel de interrupción operativa a organización?",
                 type: 'standard',
                 options: [
                     { label: "Interrupción menor, con rápida recuperación operativa", val: 1 },
                     { label: "Afectación moderada al desempeño o a los tiempos de respuesta", val: 2 },
                     { label: "Paralización significativa de actividades esenciales", val: 3 },
-                    { label: "Interrupción operativa severa que requiere monitoreo continuo", val: 4 }
+                    { label: "Interrupción operativa severa que requiere monitoreo y gestión continua en tiempo real", val: 4 }
                 ]
             },
             {
@@ -363,7 +369,7 @@
                     { label: "Basado en experiencia del equipo", val: 2 },
                     { label: "Documentado en un BIA inicial o estructurado", val: 3 },
                     { label: "Basado en una evaluación de riesgos", val: 4 },
-                    { label: "Mediante un análisis dinámico o automatizado de riesgos", val: 5 }
+                    { label: "Mediante un análisis dinámico o automatizado de riesgos tomando en cuenta BIA", val: 5 }
                 ]
             },
             {
@@ -380,7 +386,7 @@
             },
             {
                 id: 'q5_rpo',
-                text: "En caso de incidente, la pérdida aceptable de información (RPO) es:",
+                text: "En caso de incidente, la pérdida aceptable de información es:",
                 type: 'standard',
                 options: [
                     { label: "No se ha definido", val: 1 },
@@ -506,10 +512,6 @@
                 <div class="grid grid-cols-1 md:grid-cols-1 gap-3">
             `;
 
-            // Adjust grid if options are short (optional, kept simple for now)
-            // const gridClass = q.options.length > 3 ? "md:grid-cols-1" : "md:grid-cols-3";
-            // html = html.replace("md:grid-cols-2", gridClass);
-
             q.options.forEach((opt, idx) => {
                 const valArg = opt.val;
                 // Escape single quotes for the inline onclick handler
@@ -562,9 +564,10 @@
 
         window.calculateResults = function() {
             let totalPoints = 0;
-            const fixedMaxScore = 50; // Requested max score
+            const fixedMaxScore = 50; 
             
             // Iterate only through CORE questions to calculate score
+            // Prospecting questions are ignored for score
             coreQuestions.forEach(q => {
                 const ans = answers[q.id];
                 if (ans && typeof ans.value === 'number') {
@@ -667,6 +670,7 @@
                 const answersListRef = ref(db, 'respuestas_bcmex');
                 const newAnswerRef = push(answersListRef);
                 
+                // Enviamos sin 'path' porque ya no existe la lógica de ramas
                 await set(newAnswerRef, {
                     email: email,
                     score: currentCalculatedScore,
