@@ -56,12 +56,7 @@
 <div class="flex items-center gap-2 cursor-pointer" onclick="resetApp()">
 <!-- Reemplaza el icono o agrégalo junto a él -->
 <img src="logo1.png" alt="Logo BCMEX" class="h-10 w-auto"> 
-</div>
-<div class="hidden md:flex gap-8 text-sm font-medium text-slate-600">
-<a class="hover:text-blue-600 transition" href="#">Soluciones</a>
-<a class="hover:text-blue-600 transition" href="#">Auditoría</a>
-<a class="hover:text-blue-600 transition" href="#">Casos de Éxito</a>
-</div>
+
 <button class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-full text-sm font-medium transition shadow-lg shadow-blue-200">
             Contáctanos
         </button>
@@ -71,26 +66,13 @@
 <main class="flex-1 mt-16 relative overflow-hidden flex flex-col" id="app-container">
 <!-- Hero Section -->
 <section class="absolute inset-0 z-10 flex items-center justify-center bg-slate-50" id="hero-section">
-<!-- Dev Export Button -->
-<div class="absolute bottom-8 left-8 z-30 no-print">
-<button class="flex items-center gap-2 bg-slate-800 hover:bg-slate-900 text-slate-200 px-4 py-3 rounded-lg text-sm font-mono border border-slate-700 hover:border-blue-500 hover:text-white transition shadow-lg group" onclick="downloadFullSourceBundle()">
-<span class="material-symbols-outlined text-lg group-hover:text-blue-400">code</span>
-<div class="text-left leading-tight">
-<span class="block text-xs text-slate-500 uppercase font-bold">Developer Mode</span>
-                    Export Source
-                </div>
-<span class="material-symbols-outlined text-slate-500 group-hover:text-white ml-2">download</span>
-</button>
-</div>
+<!-- Dev Export Button(DELETED XPORT BUTTON) -->
+
 <div class="absolute inset-0 overflow-hidden">
 <img alt="Background" class="w-full h-full object-cover opacity-20" src="background1.png">
 <div class="absolute inset-0 bg-gradient-to-t from-slate-50 via-transparent to-transparent"></div>
 </div>
-<div class="relative z-20 max-w-4xl text-center px-6">
-<div class="inline-flex items-center gap-2 bg-blue-50 border border-blue-100 px-4 py-1 rounded-full text-blue-700 text-sm font-semibold mb-6 animate-pulse">
-<span class="w-2 h-2 rounded-full bg-blue-600"></span>
-                    Evaluación Gratuita 2025
-                </div>
+
 <h1 class="text-5xl md:text-6xl font-bold text-slate-900 mb-6 leading-tight slide-up">
                     ¿Qué tan resiliente es tu negocio ante el <span class="gradient-text">caos?</span>
 </h1>
@@ -602,4 +584,5 @@
         document.addEventListener('DOMContentLoaded', init);
     </script>
 </body></html>
+
 
