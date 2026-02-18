@@ -52,7 +52,7 @@
 <link type="text/css" href="https://fonts.googleapis.com/css2?family=Google+Symbols:opsz,wght,FILL,GRAD,ROND@24,400,0,0,50&amp;icon_names=link" rel="stylesheet"></head>
 <body class="text-slate-800 h-screen overflow-hidden flex flex-col">
 <!-- Navbar -->
-<nav class="w-full bg-white/95 backdrop-blur-md border-b border-slate-100 fixed top-0 z-50 h-20 flex items-center justify-between px-6 lg:px-12 shadow-sm no-print">
+<nav class="w-full bg-white/95 backdrop-blur-md border-b border-slate-100 fixed top-0 z-50 h-20 flex items-center justify-between px-10 lg:px-16 shadow-sm no-print">
 <div class="flex items-center gap-3 cursor-pointer" onclick="resetApp()">
 <!-- Logo Imagen -->
 <img class="h-12 w-auto object-contain" src="logo1.png" alt="Logo BCMEX">
@@ -104,12 +104,7 @@
         </button>
         
         <!-- Dev Export Button (Hidden for production aesthetics, keeping functional) -->
-        <div class="fixed bottom-4 left-4 z-30 opacity-50 hover:opacity-100 transition-opacity no-print">
-            <button class="flex items-center gap-2 bg-black/50 hover:bg-black/80 text-white/70 hover:text-white px-3 py-2 rounded text-xs font-mono border border-white/10 transition" onclick="downloadFullSourceBundle()">
-                <span class="material-symbols-outlined text-sm">code</span>
-                <span class="hidden sm:inline">Export Source</span>
-            </button>
-        </div>
+
 
     </div>
 
@@ -610,3 +605,4 @@
         document.addEventListener('DOMContentLoaded', init);
     </script>
 </body></html>
+
