@@ -232,6 +232,7 @@
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
         import { getDatabase, ref, push, set, serverTimestamp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js';
         import { getAuth, signInAnonymously } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
+        import { getAnalytics, logEvent } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js'; // <-- Importación Analytics
 
         // --- FIREBASE CONFIGURATION ---
         const firebaseConfig = {
@@ -246,13 +247,14 @@
         };
 
         // Initialize Firebase
-        let db, auth;
+        let db, auth, analytics;
         let firebaseInitialized = false;
 
         try {
             const app = initializeApp(firebaseConfig);
             db = getDatabase(app); 
             auth = getAuth(app);
+            analytics = getAnalytics(app); // <-- Inicialización Analytics
             firebaseInitialized = true;
             
             signInAnonymously(auth).catch((error) => {
@@ -486,6 +488,9 @@
                     factTicker.style.opacity = 1;
                 }, 500);
             }, 6000);
+
+            // Log de carga principal en GA4
+            if (analytics) logEvent(analytics, 'screen_view', { screen_name: 'Inicio' });
         }
 
         window.startAssessment = function() {
@@ -496,6 +501,9 @@
             currentStep = 0;
             answers = {};
             renderQuestion();
+
+            // Log de inicio en GA4
+            if (analytics) logEvent(analytics, 'screen_view', { screen_name: 'Cuestionario' });
         }
 
         window.renderQuestion = function() {
@@ -537,6 +545,9 @@
             // Guardamos un objeto con valor y etiqueta
             answers[qid] = { value: val, label: label };
             
+            // Log de progreso en GA4
+            if (analytics) logEvent(analytics, 'question_answered', { question_id: qid, answer_value: val });
+
             if (currentStep < activeQuestions.length - 1) {
                 currentStep++;
                 setTimeout(renderQuestion, 200);
@@ -559,6 +570,10 @@
                 calculateResults();
                 loadingSection.classList.add('hidden');
                 resultsSection.classList.remove('hidden');
+
+                // Log de pantalla final en GA4
+                if (analytics) logEvent(analytics, 'screen_view', { screen_name: 'Resultados' });
+
             }, 3000);
         }
 
@@ -578,6 +593,12 @@
             currentCalculatedScore = totalPoints;
             currentMaxScore = fixedMaxScore;
             updateDashboard(totalPoints, fixedMaxScore);
+
+            // Log de finalización en GA4
+            if (analytics) logEvent(analytics, 'assessment_completed', { 
+                final_score: currentCalculatedScore, 
+                risk_level: currentRiskLevel 
+            });
         }
 
         window.updateDashboard = function(score, maxScore) {
@@ -636,6 +657,9 @@
             circle.style.strokeDashoffset = 552;
             circle.classList.remove('text-red-600', 'text-orange-500', 'text-green-500');
             circle.classList.add('text-blue-600');
+
+            // Log al volver a inicio
+            if (analytics) logEvent(analytics, 'screen_view', { screen_name: 'Inicio' });
         }
 
         window.handleInlineSubmit = async function() {
@@ -696,6 +720,12 @@
 
                 // Registrar la hora exitosa en el navegador del usuario para el Cooldown
                 localStorage.setItem('bcmex_last_submission', Date.now().toString());
+
+                // Log del LEAD en GA4 (Conversión)
+                if (analytics) logEvent(analytics, 'lead_generated', { 
+                    score: currentCalculatedScore,
+                    risk_level: currentRiskLevel 
+                });
 
                 // Alerta de éxito solicitada
                 alert("Se han capturado sus datos de manera exitosa. En breve le enviaremos los detalles completos a su correo.");
