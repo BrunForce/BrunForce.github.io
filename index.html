@@ -644,6 +644,20 @@
                 return;
             }
 
+            // --- PROTECCIÓN ANTI-SPAM (COOLDOWN DE 2 MINUTOS) ---
+            const lastSubmissionTime = localStorage.getItem('bcmex_last_submission');
+            if (lastSubmissionTime) {
+                const timePassed = Date.now() - parseInt(lastSubmissionTime, 10);
+                const cooldownMs = 2 * 60 * 1000; // 2 minutos en milisegundos
+
+                if (timePassed < cooldownMs) {
+                    const timeLeft = Math.ceil((cooldownMs - timePassed) / 60000);
+                    alert(`Ya hemos recibido tus datos recientemente. Por favor espera ${timeLeft} minuto(s) antes de enviar de nuevo.`);
+                    return; // Detiene la ejecución aquí, no envía nada a Firebase
+                }
+            }
+            // --------------------------------------------------
+
             const emailInput = document.getElementById('inline-user-email');
             const email = emailInput.value;
             
@@ -658,7 +672,7 @@
             btn.disabled = true;
 
             try {
-                // Ensure auth
+                // Ensure auth - attempt it, but proceed even if it fails
                 if (!auth.currentUser) {
                     try {
                         await signInAnonymously(auth);
@@ -680,8 +694,15 @@
                     answers: answers
                 });
 
-                alert("¡Hemos recibido tus datos! Te enviaremos los detalles completos a tu correo pronto.");
+                // Registrar la hora exitosa en el navegador del usuario para el Cooldown
+                localStorage.setItem('bcmex_last_submission', Date.now().toString());
+
+                // Alerta de éxito solicitada
+                alert("Se han capturado sus datos de manera exitosa. En breve le enviaremos los detalles completos a su correo.");
                 emailInput.value = '';
+
+                // Regresar al usuario al inicio para evitar reenvíos accidentales
+                resetApp();
 
             } catch (error) {
                 console.error("Firebase save error:", error);
