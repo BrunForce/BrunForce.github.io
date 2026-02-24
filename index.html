@@ -31,7 +31,7 @@
         @media print {
             @page { margin: 0.5cm; size: A4; }
             body { background-color: white; -webkit-print-color-adjust: exact; print-color-adjust: exact; overflow: visible !important; height: auto !important; }
-            nav, button, .no-print, #hero-section, #wizard-section, #loading-section, #inline-email-form { display: none !important; }
+            nav, button, .no-print, #hero-section, #wizard-section, #loading-section, #inline-email-form, #name-modal { display: none !important; }
             #app-container { margin: 0; padding: 0; height: auto; overflow: visible; }
             #results-section { 
                 position: relative !important; 
@@ -55,7 +55,7 @@
 <nav class="w-full bg-white/95 backdrop-blur-md border-b border-slate-100 fixed top-0 z-50 h-20 flex items-center justify-between px-6 lg:px-12 shadow-sm no-print">
 <div class="flex items-center gap-3 cursor-pointer" onclick="resetApp()">
 <!-- Logo Imagen SOLA (Sin texto BCMEX al lado) -->
-<img class="h-12 w-auto object-contain" src="logo1.png" alt="Logo BCMEX">
+<img class="h-12 w-auto object-contain" src="logo1.png" alt="Logo BCMEX" onerror="this.src='https://placehold.co/120x40?text=Logo'">
 </div>
 <button class="bg-[#0ea5e9] hover:bg-[#0284c7] text-white px-6 py-2.5 rounded-full text-sm font-bold transition shadow-md">
             Contáctanos
@@ -69,7 +69,7 @@
 
     <!-- Background Image Container -->
     <div class="absolute inset-0 overflow-hidden">
-        <img alt="Background" class="w-full h-full object-cover" src="background1.png">
+        <img alt="Background" class="w-full h-full object-cover" src="background1.png" onerror="this.src='https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070'">
         <!-- Gradiente oscuro para asegurar legibilidad de letras blancas -->
         <div class="absolute inset-0 bg-slate-900/40"></div>
     </div>
@@ -96,8 +96,8 @@
             Identifica brechas antes de que se conviertan en desastres.
         </p>
 
-        <!-- CTA Button -->
-        <button class="group relative bg-gradient-to-r from-[#06b6d4] to-[#2563eb] text-white px-10 py-4 rounded-lg font-bold text-lg shadow-xl shadow-blue-900/50 hover:shadow-2xl hover:scale-105 transition-all duration-300 slide-up flex items-center gap-2" onclick="startAssessment()" style="animation-delay: 0.4s;">
+        <!-- CTA Button (Ahora abre el modal de nombre) -->
+        <button class="group relative bg-gradient-to-r from-[#06b6d4] to-[#2563eb] text-white px-10 py-4 rounded-lg font-bold text-lg shadow-xl shadow-blue-900/50 hover:shadow-2xl hover:scale-105 transition-all duration-300 slide-up flex items-center gap-2" onclick="openNameModal()" style="animation-delay: 0.4s;">
             <span>Iniciar Diagnóstico</span>
             <span class="material-symbols-outlined text-2xl group-hover:translate-x-1 transition-transform">chevron_right</span>
         </button>
@@ -105,6 +105,27 @@
     </div>
 
 </section>
+
+<!-- Modal: Nombre del Usuario -->
+<div id="name-modal" class="hidden absolute inset-0 z-50 flex items-center justify-center bg-slate-900/80 backdrop-blur-sm px-4">
+    <div class="bg-white rounded-2xl p-8 max-w-md w-full shadow-2xl scale-in">
+        <div class="flex items-center gap-3 mb-2">
+            <span class="material-symbols-outlined text-blue-600 text-3xl">person</span>
+            <h3 class="text-2xl font-bold text-slate-900">Antes de comenzar</h3>
+        </div>
+        <p class="text-slate-500 mb-6 text-sm">Por favor, indícanos tu nombre para personalizar tu diagnóstico.</p>
+        
+        <input type="text" id="user-name-input" placeholder="Ej. Juan Pérez" class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:ring-0 focus:border-blue-500 outline-none transition mb-8 text-lg font-medium text-slate-700" onkeypress="handleNameKeypress(event)">
+        
+        <div class="flex justify-end gap-3">
+            <button onclick="closeNameModal()" class="px-5 py-2.5 text-slate-500 hover:bg-slate-100 hover:text-slate-700 rounded-xl font-medium transition">Cancelar</button>
+            <button onclick="submitNameAndStart()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-xl font-bold transition shadow-lg shadow-blue-200 flex items-center gap-2">
+                Continuar
+                <span class="material-symbols-outlined text-sm">arrow_forward</span>
+            </button>
+        </div>
+    </div>
+</div>
 
 <!-- Assessment Wizard -->
 <section class="absolute inset-0 z-20 hidden flex flex-col bg-slate-50" id="wizard-section">
@@ -156,13 +177,12 @@
 <!-- Results Dashboard -->
 <section class="absolute inset-0 z-40 hidden bg-slate-50 overflow-y-auto" id="results-section">
 <div class="bg-slate-900 text-white pt-12 pb-24 px-6 relative overflow-hidden print-break-inside">
-<img class="absolute inset-0 w-full h-full object-cover opacity-10 mix-blend-overlay print-header-image" src="background1.png">
+<img class="absolute inset-0 w-full h-full object-cover opacity-10 mix-blend-overlay print-header-image" src="background1.png" onerror="this.src='https://images.unsplash.com/photo-1558494949-efc535b5fa12?q=80&w=2070'">
 <div class="max-w-6xl mx-auto relative z-10 flex flex-col md:flex-row justify-between items-end gap-6">
 <div>
 <h2 class="text-3xl font-bold mb-2">Diagnóstico de Madurez BCP</h2>
-<p class="text-slate-400">Generado el <span id="current-date">4 de diciembre de 2025</span> para su empresa</p>
+<p class="text-slate-400">Generado el <span id="current-date">4 de diciembre de 2025</span> para <span id="display-user-name" class="font-semibold text-blue-400">su empresa</span></p>
 </div>
-<!-- Removed Header Buttons -->
 </div>
 </div>
 
@@ -232,7 +252,7 @@
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
         import { getDatabase, ref, push, set, serverTimestamp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js';
         import { getAuth, signInAnonymously } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
-        import { getAnalytics, logEvent } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js'; // <-- Importación Analytics
+        import { getAnalytics, logEvent } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js';
 
         // --- FIREBASE CONFIGURATION ---
         const firebaseConfig = {
@@ -254,7 +274,7 @@
             const app = initializeApp(firebaseConfig);
             db = getDatabase(app); 
             auth = getAuth(app);
-            analytics = getAnalytics(app); // <-- Inicialización Analytics
+            analytics = getAnalytics(app); 
             firebaseInitialized = true;
             
             signInAnonymously(auth).catch((error) => {
@@ -266,186 +286,25 @@
 
         // --- APP DATA & LOGIC ---
         
-        // PHASE 1: PROSPECTION (NO SCORE) - From prosp.txt
         const prospectingQuestions = [
-            {
-                id: 'p1_market',
-                text: "¿Cuál es la participación de mercado de su empresa en el país?",
-                type: 'standard',
-                options: [
-                    { label: "Menos del 10%", val: 1 },
-                    { label: "Entre 11% y 30%", val: 2 },
-                    { label: "Entre 31% y 50%", val: 3 },
-                    { label: "Mas del 51%", val: 4 }
-                ]
-            },
-            {
-                id: 'p2_employees',
-                text: "¿Cuántas personas participan directamente en la operación diaria del negocio?",
-                type: 'standard',
-                options: [
-                    { label: "Menos de 10", val: 1 },
-                    { label: "10 - 50", val: 2 },
-                    { label: "51 - 200", val: 3 },
-                    { label: "201 - 500", val: 4 },
-                    { label: "Mas de 500", val: 5 }
-                ]
-            },
-            {
-                id: 'p3_dependency',
-                text: "¿Qué tan dependiente es su operación de sistemas digitales para generar ingresos?",
-                type: 'standard',
-                options: [
-                    { label: "Baja, podríamos operar manualmente", val: 1 },
-                    { label: "Media, alta productividad", val: 2 },
-                    { label: "Alta, la operación se detiene", val: 3 },
-                    { label: "Critica, el negocio no puede operar sin sistemas", val: 4 }
-                ]
-            },
-            {
-                id: 'p4_systems',
-                text: "¿Cuántos sistemas o aplicaciones son críticos para la operación diaria?",
-                type: 'standard',
-                options: [
-                    { label: "1-2", val: 1 },
-                    { label: "3-5", val: 2 },
-                    { label: "6-10", val: 3 },
-                    { label: "Mas de 10", val: 4 }
-                ]
-            },
-            {
-                id: 'p5_impact',
-                text: "Una interrupción tecnológica impactaría principalmente en:",
-                type: 'standard',
-                options: [
-                    { label: "Operación interna", val: 1 },
-                    { label: "Clientes finales", val: 2 },
-                    { label: "Socios/Proveedores", val: 3 },
-                    { label: "Clientes, ingreso y reputación", val: 4 }
-                ]
-            },
-            {
-                id: 'p6_team',
-                text: "¿Existe un equipo o área responsable de continuidad, riesgos o tecnología?",
-                type: 'standard',
-                options: [
-                    { label: "No", val: 1 },
-                    { label: "Se asigna de forma informal", val: 2 },
-                    { label: "Si, Pero con recursos limitados", val: 3 },
-                    { label: "Si, con responsables definidos", val: 4 }
-                ]
-            }
+            { id: 'p1_market', text: "¿Cuál es la participación de mercado de su empresa en el país?", type: 'standard', options: [{ label: "Menos del 10%", val: 1 }, { label: "Entre 11% y 30%", val: 2 }, { label: "Entre 31% y 50%", val: 3 }, { label: "Mas del 51%", val: 4 }] },
+            { id: 'p2_employees', text: "¿Cuántas personas participan directamente en la operación diaria del negocio?", type: 'standard', options: [{ label: "Menos de 10", val: 1 }, { label: "10 - 50", val: 2 }, { label: "51 - 200", val: 3 }, { label: "201 - 500", val: 4 }, { label: "Mas de 500", val: 5 }] },
+            { id: 'p3_dependency', text: "¿Qué tan dependiente es su operación de sistemas digitales para generar ingresos?", type: 'standard', options: [{ label: "Baja, podríamos operar manualmente", val: 1 }, { label: "Media, alta productividad", val: 2 }, { label: "Alta, la operación se detiene", val: 3 }, { label: "Critica, el negocio no puede operar sin sistemas", val: 4 }] },
+            { id: 'p4_systems', text: "¿Cuántos sistemas o aplicaciones son críticos para la operación diaria?", type: 'standard', options: [{ label: "1-2", val: 1 }, { label: "3-5", val: 2 }, { label: "6-10", val: 3 }, { label: "Mas de 10", val: 4 }] },
+            { id: 'p5_impact', text: "Una interrupción tecnológica impactaría principalmente en:", type: 'standard', options: [{ label: "Operación interna", val: 1 }, { label: "Clientes finales", val: 2 }, { label: "Socios/Proveedores", val: 3 }, { label: "Clientes, ingreso y reputación", val: 4 }] },
+            { id: 'p6_team', text: "¿Existe un equipo o área responsable de continuidad, riesgos o tecnología?", type: 'standard', options: [{ label: "No", val: 1 }, { label: "Se asigna de forma informal", val: 2 }, { label: "Si, Pero con recursos limitados", val: 3 }, { label: "Si, con responsables definidos", val: 4 }] }
         ];
 
-        // PHASE 2: CORE ASSESSMENT (SCORED) - From questionary.txt
         const coreQuestions = [
-            {
-                id: 'q1_financial',
-                text: "Considerando la duración estimada de una interrupción en sus procesos clave, ¿qué nivel de pérdida financiera generaría para la organización?",
-                type: 'standard',
-                options: [
-                    { label: "Afectación económica marginal o absorbible", val: 1 },
-                    { label: "Costos moderados atribuibles a disminución de productividad", val: 2 },
-                    { label: "Pérdidas financieras relevantes o riesgo de penalidades contractuales", val: 3 },
-                    { label: "Impacto económico considerable con afectación a ingresos o al presupuesto operativo", val: 4 },
-                    { label: "Pérdidas críticas que terminan en la desconfianza de proveedores y bajas en los clientes", val: 5 }
-                ]
-            },
-            {
-                id: 'q2_operational',
-                text: "Si ocurre un incidente crítico en sus procesos clave, ¿Cuál sería el nivel de interrupción operativa a organización?",
-                type: 'standard',
-                options: [
-                    { label: "Interrupción menor, con rápida recuperación operativa", val: 1 },
-                    { label: "Afectación moderada al desempeño o a los tiempos de respuesta", val: 2 },
-                    { label: "Paralización significativa de actividades esenciales", val: 3 },
-                    { label: "Interrupción operativa severa que requiere monitoreo y gestión continua en tiempo real", val: 4 }
-                ]
-            },
-            {
-                id: 'q3_prioritization',
-                text: "¿Cómo identifican y priorizan sus procesos críticos para continuidad?",
-                type: 'standard',
-                options: [
-                    { label: "No están formalmente definidos", val: 1 },
-                    { label: "Basado en experiencia del equipo", val: 2 },
-                    { label: "Documentado en un BIA inicial o estructurado", val: 3 },
-                    { label: "Basado en una evaluación de riesgos", val: 4 },
-                    { label: "Mediante un análisis dinámico o automatizado de riesgos tomando en cuenta BIA", val: 5 }
-                ]
-            },
-            {
-                id: 'q4_rto',
-                text: "Para sus procesos críticos, el RTO definido es:",
-                type: 'standard',
-                options: [
-                    { label: "No existe RTO definido", val: 1 },
-                    { label: "Mayor a 72 horas", val: 2 },
-                    { label: "Entre 24 y 72 horas", val: 3 },
-                    { label: "Menor a 24 horas", val: 4 },
-                    { label: "RTO por proceso, monitoreado y alertado automáticamente", val: 5 }
-                ]
-            },
-            {
-                id: 'q5_rpo',
-                text: "En caso de incidente, la pérdida aceptable de información es:",
-                type: 'standard',
-                options: [
-                    { label: "No se ha definido", val: 1 },
-                    { label: "Mayor a 24 horas", val: 2 },
-                    { label: "Menor a 24 horas", val: 3 },
-                    { label: "Menor a 4 horas", val: 4 },
-                    { label: "RPO controlado, validado y monitoreado automáticamente", val: 5 }
-                ]
-            },
-            {
-                id: 'q6_recovery',
-                text: "La recuperación de sistemas críticos es principalmente:",
-                type: 'standard',
-                options: [
-                    { label: "Manual y reactiva", val: 1 },
-                    { label: "Documentada pero manual", val: 2 },
-                    { label: "Parcialmente automatizada", val: 3 },
-                    { label: "Mayormente automatizada", val: 4 },
-                    { label: "Orquestada y ejecutada automáticamente según evento", val: 5 }
-                ]
-            },
-            {
-                id: 'q7_responsibility',
-                text: "Si ocurre una falla grave, la responsabilidad de recuperación recae en:",
-                type: 'standard',
-                options: [
-                    { label: "Una sola persona", val: 1 },
-                    { label: "Un equipo reducido", val: 2 },
-                    { label: "Comité definido con roles claros", val: 3 },
-                    { label: "Comité con documentación compartida", val: 4 },
-                    { label: "Gobierno distribuido con visibilidad centralizada en tiempo real", val: 5 }
-                ]
-            },
-            {
-                id: 'q8_tests',
-                text: "¿Con qué frecuencia se prueban los planes BCP/DRP?",
-                type: 'standard',
-                options: [
-                    { label: "Nunca", val: 1 },
-                    { label: "Solo después de un incidente", val: 2 },
-                    { label: "Anualmente", val: 3 },
-                    { label: "Varias veces al año", val: 4 },
-                    { label: "Pruebas continuas y validación automática", val: 5 }
-                ]
-            },
-            {
-                id: 'q9_detection',
-                text: "¿Cómo detectan riesgos de interrupción antes de que ocurran?",
-                type: 'standard',
-                options: [
-                    { label: "No se detectan, se reacciona", val: 1 },
-                    { label: "Alertas manuales o aisladas", val: 2 },
-                    { label: "Dashboards operativos", val: 3 },
-                    { label: "Monitoreo centralizado de continuidad", val: 4 },
-                    { label: "Monitoreo proactivo automático por proceso crítico", val: 5 }
-                ]
-            }
+            { id: 'q1_financial', text: "Considerando la duración estimada de una interrupción en sus procesos clave, ¿qué nivel de pérdida financiera generaría para la organización?", type: 'standard', options: [{ label: "Afectación económica marginal o absorbible", val: 1 }, { label: "Costos moderados atribuibles a disminución de productividad", val: 2 }, { label: "Pérdidas financieras relevantes o riesgo de penalidades contractuales", val: 3 }, { label: "Impacto económico considerable con afectación a ingresos o al presupuesto operativo", val: 4 }, { label: "Pérdidas críticas que terminan en la desconfianza de proveedores y bajas en los clientes", val: 5 }] },
+            { id: 'q2_operational', text: "Si ocurre un incidente crítico en sus procesos clave, ¿Cuál sería el nivel de interrupción operativa a organización?", type: 'standard', options: [{ label: "Interrupción menor, con rápida recuperación operativa", val: 1 }, { label: "Afectación moderada al desempeño o a los tiempos de respuesta", val: 2 }, { label: "Paralización significativa de actividades esenciales", val: 3 }, { label: "Interrupción operativa severa que requiere monitoreo y gestión continua en tiempo real", val: 4 }] },
+            { id: 'q3_prioritization', text: "¿Cómo identifican y priorizan sus procesos críticos para continuidad?", type: 'standard', options: [{ label: "No están formalmente definidos", val: 1 }, { label: "Basado en experiencia del equipo", val: 2 }, { label: "Documentado en un BIA inicial o estructurado", val: 3 }, { label: "Basado en una evaluación de riesgos", val: 4 }, { label: "Mediante un análisis dinámico o automatizado de riesgos tomando en cuenta BIA", val: 5 }] },
+            { id: 'q4_rto', text: "Para sus procesos críticos, el RTO definido es:", type: 'standard', options: [{ label: "No existe RTO definido", val: 1 }, { label: "Mayor a 72 horas", val: 2 }, { label: "Entre 24 y 72 horas", val: 3 }, { label: "Menor a 24 horas", val: 4 }, { label: "RTO por proceso, monitoreado y alertado automáticamente", val: 5 }] },
+            { id: 'q5_rpo', text: "En caso de incidente, la pérdida aceptable de información es:", type: 'standard', options: [{ label: "No se ha definido", val: 1 }, { label: "Mayor a 24 horas", val: 2 }, { label: "Menor a 24 horas", val: 3 }, { label: "Menor a 4 horas", val: 4 }, { label: "RPO controlado, validado y monitoreado automáticamente", val: 5 }] },
+            { id: 'q6_recovery', text: "La recuperación de sistemas críticos es principalmente:", type: 'standard', options: [{ label: "Manual y reactiva", val: 1 }, { label: "Documentada pero manual", val: 2 }, { label: "Parcialmente automatizada", val: 3 }, { label: "Mayormente automatizada", val: 4 }, { label: "Orquestada y ejecutada automáticamente según evento", val: 5 }] },
+            { id: 'q7_responsibility', text: "Si ocurre una falla grave, la responsabilidad de recuperación recae en:", type: 'standard', options: [{ label: "Una sola persona", val: 1 }, { label: "Un equipo reducido", val: 2 }, { label: "Comité definido con roles claros", val: 3 }, { label: "Comité con documentación compartida", val: 4 }, { label: "Gobierno distribuido con visibilidad centralizada en tiempo real", val: 5 }] },
+            { id: 'q8_tests', text: "¿Con qué frecuencia se prueban los planes BCP/DRP?", type: 'standard', options: [{ label: "Nunca", val: 1 }, { label: "Solo después de un incidente", val: 2 }, { label: "Anualmente", val: 3 }, { label: "Varias veces al año", val: 4 }, { label: "Pruebas continuas y validación automática", val: 5 }] },
+            { id: 'q9_detection', text: "¿Cómo detectan riesgos de interrupción antes de que ocurran?", type: 'standard', options: [{ label: "No se detectan, se reacciona", val: 1 }, { label: "Alertas manuales o aisladas", val: 2 }, { label: "Dashboards operativos", val: 3 }, { label: "Monitoreo centralizado de continuidad", val: 4 }, { label: "Monitoreo proactivo automático por proceso crítico", val: 5 }] }
         ];
 
         const funFacts = [
@@ -462,8 +321,9 @@
         let currentCalculatedScore = 0;
         let currentMaxScore = 50; 
         let currentRiskLevel = '';
+        let currentUserName = ''; // VARIABLE PARA GUARDAR EL NOMBRE
 
-        // DOM Elements (exported to window for onclick handlers)
+        // DOM Elements
         window.heroSection = document.getElementById('hero-section');
         window.wizardSection = document.getElementById('wizard-section');
         window.loadingSection = document.getElementById('loading-section');
@@ -473,6 +333,7 @@
         window.stepNum = document.getElementById('current-step-num');
         window.totalSteps = document.getElementById('total-steps');
         window.factTicker = document.getElementById('fun-fact-ticker');
+        window.nameModal = document.getElementById('name-modal');
         
         window.init = function() {
             const dateOpts = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -489,20 +350,45 @@
                 }, 500);
             }, 6000);
 
-            // Log de carga principal en GA4
             if (analytics) logEvent(analytics, 'screen_view', { screen_name: 'Inicio' });
+        }
+
+        // NUEVAS FUNCIONES PARA EL MODAL DE NOMBRE
+        window.openNameModal = function() {
+            nameModal.classList.remove('hidden');
+            setTimeout(() => document.getElementById('user-name-input').focus(), 100);
+        }
+
+        window.closeNameModal = function() {
+            nameModal.classList.add('hidden');
+        }
+
+        window.handleNameKeypress = function(e) {
+            if (e.key === 'Enter') {
+                submitNameAndStart();
+            }
+        }
+
+        window.submitNameAndStart = function() {
+            const inputVal = document.getElementById('user-name-input').value.trim();
+            if (!inputVal) {
+                alert("Por favor, ingresa tu nombre para continuar.");
+                return;
+            }
+            currentUserName = inputVal;
+            closeNameModal();
+            startAssessment();
         }
 
         window.startAssessment = function() {
             heroSection.classList.add('hidden');
             wizardSection.classList.remove('hidden');
-            // Combine both sets of questions linearly
+            
             activeQuestions = [...prospectingQuestions, ...coreQuestions];
             currentStep = 0;
             answers = {};
             renderQuestion();
 
-            // Log de inicio en GA4
             if (analytics) logEvent(analytics, 'screen_view', { screen_name: 'Cuestionario' });
         }
 
@@ -522,7 +408,6 @@
 
             q.options.forEach((opt, idx) => {
                 const valArg = opt.val;
-                // Escape single quotes for the inline onclick handler
                 const labelArg = opt.label.replace(/'/g, "\\'");
                 html += `
                     <div onclick="selectAnswer('${q.id}', ${valArg}, '${labelArg}')" 
@@ -542,10 +427,8 @@
         }
 
         window.selectAnswer = function(qid, val, label) {
-            // Guardamos un objeto con valor y etiqueta
             answers[qid] = { value: val, label: label };
             
-            // Log de progreso en GA4
             if (analytics) logEvent(analytics, 'question_answered', { question_id: qid, answer_value: val });
 
             if (currentStep < activeQuestions.length - 1) {
@@ -571,7 +454,6 @@
                 loadingSection.classList.add('hidden');
                 resultsSection.classList.remove('hidden');
 
-                // Log de pantalla final en GA4
                 if (analytics) logEvent(analytics, 'screen_view', { screen_name: 'Resultados' });
 
             }, 3000);
@@ -581,8 +463,6 @@
             let totalPoints = 0;
             const fixedMaxScore = 50; 
             
-            // Iterate only through CORE questions to calculate score
-            // Prospecting questions are ignored for score
             coreQuestions.forEach(q => {
                 const ans = answers[q.id];
                 if (ans && typeof ans.value === 'number') {
@@ -592,9 +472,12 @@
 
             currentCalculatedScore = totalPoints;
             currentMaxScore = fixedMaxScore;
+            
+            // Personalizar el título con el nombre
+            document.getElementById('display-user-name').textContent = currentUserName;
+
             updateDashboard(totalPoints, fixedMaxScore);
 
-            // Log de finalización en GA4
             if (analytics) logEvent(analytics, 'assessment_completed', { 
                 final_score: currentCalculatedScore, 
                 risk_level: currentRiskLevel 
@@ -615,11 +498,6 @@
             const desc = document.getElementById('score-description');
             const pitchText = document.getElementById('pitch-text');
             const circleColor = document.getElementById('score-circle');
-
-            // Thresholds based on 50 max score
-            // Low: < 20
-            // Mid: 20 - 35
-            // High: > 35
 
             if (score < 20) {
                 currentRiskLevel = 'Crítico';
@@ -657,30 +535,31 @@
             circle.style.strokeDashoffset = 552;
             circle.classList.remove('text-red-600', 'text-orange-500', 'text-green-500');
             circle.classList.add('text-blue-600');
+            
+            // Limpiar inputs
+            document.getElementById('user-name-input').value = '';
+            currentUserName = '';
 
-            // Log al volver a inicio
             if (analytics) logEvent(analytics, 'screen_view', { screen_name: 'Inicio' });
         }
 
         window.handleInlineSubmit = async function() {
             if (!firebaseInitialized) {
-                alert("Error: Firebase no está configurado. Por favor agregue su API Key en el código.");
+                alert("Error: Firebase no está configurado.");
                 return;
             }
 
-            // --- PROTECCIÓN ANTI-SPAM (COOLDOWN DE 2 MINUTOS) ---
             const lastSubmissionTime = localStorage.getItem('bcmex_last_submission');
             if (lastSubmissionTime) {
                 const timePassed = Date.now() - parseInt(lastSubmissionTime, 10);
-                const cooldownMs = 2 * 60 * 1000; // 2 minutos en milisegundos
+                const cooldownMs = 2 * 60 * 1000; 
 
                 if (timePassed < cooldownMs) {
                     const timeLeft = Math.ceil((cooldownMs - timePassed) / 60000);
                     alert(`Ya hemos recibido tus datos recientemente. Por favor espera ${timeLeft} minuto(s) antes de enviar de nuevo.`);
-                    return; // Detiene la ejecución aquí, no envía nada a Firebase
+                    return; 
                 }
             }
-            // --------------------------------------------------
 
             const emailInput = document.getElementById('inline-user-email');
             const email = emailInput.value;
@@ -696,7 +575,6 @@
             btn.disabled = true;
 
             try {
-                // Ensure auth - attempt it, but proceed even if it fails
                 if (!auth.currentUser) {
                     try {
                         await signInAnonymously(auth);
@@ -708,36 +586,34 @@
                 const answersListRef = ref(db, 'respuestas_bcmex');
                 const newAnswerRef = push(answersListRef);
                 
-                // Enviamos sin 'path' porque ya no existe la lógica de ramas
+                // NUEVA ESTRUCTURA DE GUARDADO
                 await set(newAnswerRef, {
+                    name: currentUserName,         // <--- NOMBRE AÑADIDO
                     email: email,
                     score: currentCalculatedScore,
                     maxScore: currentMaxScore,
                     level: currentRiskLevel,
-                    date: serverTimestamp(),
+                    date: serverTimestamp(),       // <--- El Timestamp de Firebase (Milisegundos)
+                    dateReadable: new Date().toLocaleString('es-MX'), // <--- Fecha fácil de leer en Excel
                     answers: answers
                 });
 
-                // Registrar la hora exitosa en el navegador del usuario para el Cooldown
                 localStorage.setItem('bcmex_last_submission', Date.now().toString());
 
-                // Log del LEAD en GA4 (Conversión)
                 if (analytics) logEvent(analytics, 'lead_generated', { 
                     score: currentCalculatedScore,
                     risk_level: currentRiskLevel 
                 });
 
-                // Alerta de éxito solicitada
                 alert("Se han capturado sus datos de manera exitosa. En breve le enviaremos los detalles completos a su correo.");
                 emailInput.value = '';
 
-                // Regresar al usuario al inicio para evitar reenvíos accidentales
                 resetApp();
 
             } catch (error) {
                 console.error("Firebase save error:", error);
                 if (error.code === 'PERMISSION_DENIED') {
-                    alert("Error de permisos: No se pudo guardar. Si no ha habilitado Authentication en Firebase Console, cambie sus reglas de base de datos a '.write': true.");
+                    alert("Error de permisos: Asegúrate de actualizar tus Reglas de Firebase para incluir 'name' y 'dateReadable'.");
                 } else {
                     alert("Hubo un error al guardar: " + error.message);
                 }
