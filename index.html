@@ -286,6 +286,17 @@
             console.error("Firebase init failed:", e);
         }
 
+        // --- FUNCIONES SEGURAS DE ANALYTICS (ANTI-CRASH) ---
+        const safeLogEvent = (eventName, params) => {
+            if (analytics) {
+                try {
+                    logEvent(analytics, eventName, params);
+                } catch (e) {
+                    console.warn("Analytics bloqueado o no disponible:", e);
+                }
+            }
+        };
+
         // --- APP DATA & LOGIC ---
         
         const prospectingQuestions = [
@@ -352,7 +363,7 @@
                 }, 500);
             }, 6000);
 
-            if (analytics) logEvent(analytics, 'screen_view', { screen_name: 'Inicio' });
+            safeLogEvent('screen_view', { screen_name: 'Inicio' });
         }
 
         // NUEVAS FUNCIONES PARA EL MODAL DE NOMBRE
@@ -391,7 +402,7 @@
             answers = {};
             renderQuestion();
 
-            if (analytics) logEvent(analytics, 'screen_view', { screen_name: 'Cuestionario' });
+            safeLogEvent('screen_view', { screen_name: 'Cuestionario' });
         }
 
         window.renderQuestion = function() {
@@ -431,7 +442,7 @@
         window.selectAnswer = function(qid, val, label) {
             answers[qid] = { value: val, label: label };
             
-            if (analytics) logEvent(analytics, 'question_answered', { question_id: qid, answer_value: val });
+            safeLogEvent('question_answered', { question_id: qid, answer_value: val });
 
             if (currentStep < activeQuestions.length - 1) {
                 currentStep++;
@@ -452,11 +463,17 @@
             }, 1500);
 
             setTimeout(() => {
-                calculateResults();
+                // Envolvemos el cálculo en try-catch por máxima seguridad
+                try {
+                    calculateResults();
+                } catch(e) {
+                    console.error("Error al calcular:", e);
+                }
+                
                 loadingSection.classList.add('hidden');
                 resultsSection.classList.remove('hidden');
 
-                if (analytics) logEvent(analytics, 'screen_view', { screen_name: 'Resultados' });
+                safeLogEvent('screen_view', { screen_name: 'Resultados' });
 
             }, 3000);
         }
@@ -480,7 +497,7 @@
 
             updateDashboard(totalPoints, fixedMaxScore);
 
-            if (analytics) logEvent(analytics, 'assessment_completed', { 
+            safeLogEvent('assessment_completed', { 
                 final_score: currentCalculatedScore, 
                 risk_level: currentRiskLevel 
             });
@@ -542,7 +559,7 @@
             document.getElementById('user-name-input').value = '';
             currentUserName = '';
 
-            if (analytics) logEvent(analytics, 'screen_view', { screen_name: 'Inicio' });
+            safeLogEvent('screen_view', { screen_name: 'Inicio' });
         }
 
         window.handleInlineSubmit = async function() {
@@ -602,7 +619,7 @@
 
                 localStorage.setItem('bcmex_last_submission', Date.now().toString());
 
-                if (analytics) logEvent(analytics, 'lead_generated', { 
+                safeLogEvent('lead_generated', { 
                     score: currentCalculatedScore,
                     risk_level: currentRiskLevel 
                 });
