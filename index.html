@@ -9,11 +9,11 @@
         body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
         .fade-in { animation: fadeIn 0.5s ease-in-out; }
         .slide-up { animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
-        .scale-in { animation: scaleIn 0.4s ease-out; }
+        .scale-in { animation: scaleIn 0.2s ease-out; }
         
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        @keyframes scaleIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        @keyframes scaleIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
         .glass-panel {
             background: rgba(255, 255, 255, 0.95);
@@ -53,13 +53,51 @@
 <body class="text-slate-800 h-screen overflow-hidden flex flex-col">
 <!-- Navbar -->
 <nav class="w-full bg-white/95 backdrop-blur-md border-b border-slate-100 fixed top-0 z-50 h-20 flex items-center justify-between px-6 lg:px-12 shadow-sm no-print">
-<div class="flex items-center gap-3 cursor-pointer" onclick="resetApp()">
-<!-- Logo Imagen SOLA (Sin texto BCMEX al lado) -->
-<img class="h-12 w-auto object-contain" src="logo1.png" alt="Logo BCMEX" onerror="this.src='https://placehold.co/120x40?text=Logo'">
-</div>
-<button class="bg-[#0ea5e9] hover:bg-[#0284c7] text-white px-6 py-2.5 rounded-full text-sm font-bold transition shadow-md">
-            Contáctanos
+    <div class="flex items-center gap-3 cursor-pointer" onclick="resetApp()">
+        <img class="h-12 w-auto object-contain" src="logo1.png" alt="Logo BCMEX" onerror="this.src='https://placehold.co/120x40?text=Logo'">
+    </div>
+    
+    <!-- NUEVO BOTÓN DE CONTÁCTANOS CON SLIDE -->
+    <div class="relative">
+        <button onclick="toggleContactMenu()" id="btn-contact" class="bg-[#0ea5e9] hover:bg-[#0284c7] text-white px-6 py-2.5 rounded-full text-sm font-bold transition shadow-md flex items-center gap-2">
+            <span>Contáctanos</span>
+            <span class="material-symbols-outlined text-[18px] transition-transform duration-300" id="contact-chevron">expand_more</span>
         </button>
+
+        <!-- Menú Desplegable (Slide) -->
+        <div id="contact-menu" class="hidden absolute right-0 mt-3 w-80 bg-white rounded-2xl shadow-2xl border border-slate-100 p-2 z-50 scale-in origin-top-right">
+            
+            <!-- Opción Correo -->
+            <a href="mailto:comercial@bcmex.mx" class="block p-3 hover:bg-slate-50 rounded-xl transition border-b border-slate-50 group">
+                <div class="flex items-start gap-4 text-slate-700">
+                    <div class="bg-blue-50 p-2.5 rounded-lg text-[#0ea5e9] group-hover:bg-[#0ea5e9] group-hover:text-white transition-colors duration-300">
+                        <span class="material-symbols-outlined text-xl">mail</span>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Escríbenos</p>
+                        <p class="text-sm font-semibold group-hover:text-[#0284c7] transition-colors">comercial@bcmex.mx</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Opción Web -->
+            <a href="https://bcmex.mx/" target="_blank" class="block p-3 hover:bg-slate-50 rounded-xl transition group">
+                <div class="flex items-start gap-4 text-slate-700">
+                    <div class="bg-blue-50 p-2.5 rounded-lg text-[#0ea5e9] group-hover:bg-[#0ea5e9] group-hover:text-white transition-colors duration-300">
+                        <span class="material-symbols-outlined text-xl">public</span>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Visítanos</p>
+                        <p class="text-xs font-medium leading-relaxed group-hover:text-[#0284c7] transition-colors">
+                            BCMEX – Diseñamos estrategias que impulsan tu negocio
+                        </p>
+                    </div>
+                </div>
+            </a>
+            
+        </div>
+    </div>
+    <!-- FIN NUEVO BOTÓN -->
 </nav>
 
 <!-- Main Content Area -->
@@ -70,40 +108,27 @@
     <!-- Background Image Container -->
     <div class="absolute inset-0 overflow-hidden">
         <img alt="Background" class="w-full h-full object-cover" src="background1.png" onerror="this.src='https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070'">
-        <!-- Gradiente oscuro para asegurar legibilidad de letras blancas -->
         <div class="absolute inset-0 bg-slate-900/40"></div>
     </div>
 
     <!-- Content Wrapper -->
     <div class="relative z-20 max-w-5xl text-center px-6 flex flex-col items-center">
-        
-        <!-- Main Title -->
         <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-8 leading-tight tracking-tight slide-up drop-shadow-lg">
             ¿Qué tan resiliente es tu<br class="hidden md:block">
             negocio ante el caos?
         </h1>
-
-        <!-- Separator Line (Azul delgada) -->
         <div class="w-full max-w-2xl h-0.5 bg-blue-500 rounded-full mb-8 opacity-80 slide-up" style="animation-delay: 0.1s;"></div>
-
-        <!-- Subtitle (Strong) -->
         <h2 class="text-2xl md:text-3xl font-bold text-white mb-4 slide-up drop-shadow-md italic" style="animation-delay: 0.2s;">
             Obtén tu puntaje de BCP en solo 2 minutos.
         </h2>
-
-        <!-- Description (Light) -->
         <p class="text-lg md:text-xl text-slate-300 mb-12 font-light slide-up drop-shadow-md" style="animation-delay: 0.3s;">
             Identifica brechas antes de que se conviertan en desastres.
         </p>
-
-        <!-- CTA Button (Ahora abre el modal de nombre) -->
         <button class="group relative bg-gradient-to-r from-[#06b6d4] to-[#2563eb] text-white px-10 py-4 rounded-lg font-bold text-lg shadow-xl shadow-blue-900/50 hover:shadow-2xl hover:scale-105 transition-all duration-300 slide-up flex items-center gap-2" onclick="openNameModal()" style="animation-delay: 0.4s;">
             <span>Iniciar Diagnóstico</span>
             <span class="material-symbols-outlined text-2xl group-hover:translate-x-1 transition-transform">chevron_right</span>
         </button>
-        
     </div>
-
 </section>
 
 <!-- Modal: Nombre del Usuario -->
@@ -146,7 +171,6 @@
 <div class="flex-1 overflow-y-auto p-4 flex flex-col items-center justify-start">
     <div class="w-full flex items-center justify-center min-h-min py-8">
         <div class="max-w-2xl w-full bg-white rounded-2xl shadow-xl border border-slate-100 p-8 md:p-12 scale-in" id="question-card">
-        <!-- Dynamic Content -->
         </div>
     </div>
 </div>
@@ -187,16 +211,13 @@
 </div>
 
 <div class="max-w-6xl mx-auto px-6 -mt-16 relative z-20 pb-20 print-container">
-    
-    <!-- Implementamos Flexbox para controlar el ancho exacto de la tarjeta lateral -->
     <div class="flex flex-col lg:flex-row gap-6 items-start justify-center">
 
-        <!-- Columna Izquierda: Resultados principales (Toma el espacio restante) -->
+        <!-- Columna Izquierda: Resultados principales -->
         <div class="flex-1 w-full bg-white rounded-2xl shadow-lg border border-slate-100 p-8 text-center print-break-inside">
             <div>
                 <h3 class="text-slate-500 font-medium text-sm uppercase tracking-wider mb-6">Puntaje Acumulado</h3>
                 
-                <!-- ESTO FALTABA: EL CONTENEDOR RELATIVO Y EL SVG -->
                 <div class="relative w-48 h-48 mx-auto mb-6">
                     <svg class="w-full h-full transform -rotate-90">
                         <circle cx="96" cy="96" fill="transparent" r="88" stroke="#f1f5f9" stroke-width="12"></circle>
@@ -207,7 +228,6 @@
                         <span class="text-xs text-slate-400 mt-1">/ <span id="max-possible-score">50</span> Puntos</span>
                     </div>
                 </div>
-                <!-- FIN DE SVG RESTAURADO -->
 
                 <div class="mb-4" id="score-label-container">
                     <span class="px-4 py-1 rounded-full text-sm font-bold bg-yellow-100 text-yellow-700" id="score-badge">Calculando...</span>
@@ -216,7 +236,6 @@
                     Su empresa muestra vulnerabilidades significativas en la gestión de continuidad.
                 </p>
                 
-                <!-- NEW INLINE EMAIL FORM -->
                 <div class="bg-blue-50 rounded-xl p-6 border border-blue-100 mt-8" id="inline-email-form">
                     <h4 class="text-lg font-bold text-slate-800 mb-2">¿Quieres ver los detalles de esta evaluación?</h4>
                     <p class="text-slate-600 text-sm mb-4">Ingresa tu correo aquí para mandarte los detalles completos.</p>
@@ -231,9 +250,8 @@
             </div>
         </div>
 
-        <!-- Columna Derecha: BCMEX Service Pitch (Ancho fijo más angosto) -->
+        <!-- Columna Derecha: BCMEX Service Pitch -->
         <div class="w-full lg:w-[320px] shrink-0 bg-gradient-to-br from-blue-900 to-slate-900 rounded-2xl p-6 text-white relative overflow-hidden shadow-xl print-break-inside no-print">
-            <!-- Efecto visual ajustado al nuevo tamaño -->
             <div class="absolute top-0 right-0 w-48 h-48 bg-blue-500 rounded-full mix-blend-overlay filter blur-3xl opacity-20 -mr-12 -mt-12"></div>
             
             <div class="relative z-10 flex flex-col items-start text-left gap-4">
@@ -248,23 +266,21 @@
             </div>
         </div>
 
-    </div> <!-- Fin del Flex -->
+    </div> 
 
     <div class="mt-12 text-center no-print">
-        <p class="text-sm text-slate-400">© 2025 BCMEX Solutions. Todos los derechos reservados.</p>
+        <p class="text-sm text-slate-400">© 2026 BCMEX Solutions. Todos los derechos reservados.</p>
     </div>
 </div>
 </section>
 
 </main>
 <script type="module">
-        // Import Firebase SDKs
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
         import { getDatabase, ref, push, set, serverTimestamp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js';
         import { getAuth, signInAnonymously } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
         import { getAnalytics, logEvent } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js';
 
-        // --- FIREBASE CONFIGURATION ---
         const firebaseConfig = {
             apiKey: "AIzaSyC-IFIyAI-I-tIkDkljoqdBqh7c94ObHcc",
             authDomain: "bcmexbcp.firebaseapp.com",
@@ -276,7 +292,6 @@
             measurementId: "G-Z7V7Y6JMMW"
         };
 
-        // Initialize Firebase
         let db, auth, analytics;
         let firebaseInitialized = false;
 
@@ -294,7 +309,6 @@
             console.error("Firebase init failed:", e);
         }
 
-        // --- FUNCIONES SEGURAS DE ANALYTICS (ANTI-CRASH) ---
         const safeLogEvent = (eventName, params) => {
             if (analytics) {
                 try {
@@ -305,8 +319,6 @@
             }
         };
 
-        // --- APP DATA & LOGIC ---
-        
         const prospectingQuestions = [
             { id: 'p1_market', text: "¿Cuál es la participación de mercado de su empresa en el país?", type: 'standard', options: [{ label: "Menos del 10%", val: 1 }, { label: "Entre 11% y 30%", val: 2 }, { label: "Entre 31% y 50%", val: 3 }, { label: "Mas del 51%", val: 4 }] },
             { id: 'p2_employees', text: "¿Cuántas personas participan directamente en la operación diaria del negocio?", type: 'standard', options: [{ label: "Menos de 10", val: 1 }, { label: "10 - 50", val: 2 }, { label: "51 - 200", val: 3 }, { label: "201 - 500", val: 4 }, { label: "Mas de 500", val: 5 }] },
@@ -342,9 +354,8 @@
         let currentCalculatedScore = 0;
         let currentMaxScore = 50; 
         let currentRiskLevel = '';
-        let currentUserName = ''; // VARIABLE PARA GUARDAR EL NOMBRE
+        let currentUserName = ''; 
 
-        // DOM Elements
         window.heroSection = document.getElementById('hero-section');
         window.wizardSection = document.getElementById('wizard-section');
         window.loadingSection = document.getElementById('loading-section');
@@ -374,7 +385,32 @@
             safeLogEvent('screen_view', { screen_name: 'Inicio' });
         }
 
-        // NUEVAS FUNCIONES PARA EL MODAL DE NOMBRE
+        // LÓGICA DEL NUEVO MENÚ DE CONTACTO
+        window.toggleContactMenu = function() {
+            const menu = document.getElementById('contact-menu');
+            const chevron = document.getElementById('contact-chevron');
+            
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+                chevron.classList.add('rotate-180');
+            } else {
+                menu.classList.add('hidden');
+                chevron.classList.remove('rotate-180');
+            }
+        };
+
+        // Cerrar menú de contacto si se hace clic fuera de él
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('contact-menu');
+            const btn = document.getElementById('btn-contact');
+            if (menu && btn) {
+                if (!menu.contains(event.target) && !btn.contains(event.target)) {
+                    menu.classList.add('hidden');
+                    document.getElementById('contact-chevron').classList.remove('rotate-180');
+                }
+            }
+        });
+
         window.openNameModal = function() {
             nameModal.classList.remove('hidden');
             setTimeout(() => document.getElementById('user-name-input').focus(), 100);
@@ -471,7 +507,6 @@
             }, 1500);
 
             setTimeout(() => {
-                // Envolvemos el cálculo en try-catch por máxima seguridad
                 try {
                     calculateResults();
                 } catch(e) {
@@ -500,7 +535,6 @@
             currentCalculatedScore = totalPoints;
             currentMaxScore = fixedMaxScore;
             
-            // Personalizar el título con el nombre
             document.getElementById('display-user-name').textContent = currentUserName;
 
             updateDashboard(totalPoints, fixedMaxScore);
@@ -563,7 +597,6 @@
             circle.classList.remove('text-red-600', 'text-orange-500', 'text-green-500');
             circle.classList.add('text-blue-600');
             
-            // Limpiar inputs
             document.getElementById('user-name-input').value = '';
             currentUserName = '';
 
@@ -613,15 +646,14 @@
                 const answersListRef = ref(db, 'respuestas_bcmex');
                 const newAnswerRef = push(answersListRef);
                 
-                // NUEVA ESTRUCTURA DE GUARDADO
                 await set(newAnswerRef, {
-                    name: currentUserName,         // <--- NOMBRE AÑADIDO
+                    name: currentUserName,         
                     email: email,
                     score: currentCalculatedScore,
                     maxScore: currentMaxScore,
                     level: currentRiskLevel,
-                    date: serverTimestamp(),       // <--- El Timestamp de Firebase (Milisegundos)
-                    dateReadable: new Date().toLocaleString('es-MX'), // <--- Fecha fácil de leer en Excel
+                    date: serverTimestamp(),       
+                    dateReadable: new Date().toLocaleString('es-MX'), 
                     answers: answers
                 });
 
@@ -650,20 +682,6 @@
             }
         }
 
-        window.downloadFullSourceBundle = function() {
-            const htmlSource = document.documentElement.outerHTML;
-            const blob = new Blob([htmlSource], { type: 'text/html' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'bcmex_app_firebase.html';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
-        }
-
-        // Init
         document.addEventListener('DOMContentLoaded', init);
     </script>
 </body></html>
