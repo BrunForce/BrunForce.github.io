@@ -31,7 +31,7 @@
         @media print {
             @page { margin: 0.5cm; size: A4; }
             body { background-color: white; -webkit-print-color-adjust: exact; print-color-adjust: exact; overflow: visible !important; height: auto !important; }
-            nav, button, .no-print, #hero-section, #wizard-section, #loading-section, #inline-email-form, #name-modal { display: none !important; }
+            nav, button, .no-print, #hero-section, #wizard-section, #loading-section, #inline-email-form, #name-modal, #phone-modal { display: none !important; }
             #app-container { margin: 0; padding: 0; height: auto; overflow: visible; }
             #results-section { 
                 position: relative !important; 
@@ -57,7 +57,7 @@
         <img class="h-12 w-auto object-contain" src="logo1.png" alt="Logo BCMEX" onerror="this.src='https://placehold.co/120x40?text=Logo'">
     </div>
     
-    <!-- NUEVO BOTÓN DE CONTÁCTANOS CON SLIDE -->
+    <!-- BOTÓN DE CONTÁCTANOS CON SLIDE -->
     <div class="relative">
         <button onclick="toggleContactMenu()" id="btn-contact" class="bg-[#0ea5e9] hover:bg-[#0284c7] text-white px-6 py-2.5 rounded-full text-sm font-bold transition shadow-md flex items-center gap-2">
             <span>Contáctanos</span>
@@ -66,7 +66,6 @@
 
         <!-- Menú Desplegable (Slide) -->
         <div id="contact-menu" class="hidden absolute right-0 mt-3 w-80 bg-white rounded-2xl shadow-2xl border border-slate-100 p-2 z-50 scale-in origin-top-right">
-            
             <!-- Opción Correo -->
             <a href="mailto:comercial@bcmex.mx" class="block p-3 hover:bg-slate-50 rounded-xl transition border-b border-slate-50 group">
                 <div class="flex items-start gap-4 text-slate-700">
@@ -79,7 +78,6 @@
                     </div>
                 </div>
             </a>
-
             <!-- Opción Web -->
             <a href="https://bcmex.mx/" target="_blank" class="block p-3 hover:bg-slate-50 rounded-xl transition group">
                 <div class="flex items-start gap-4 text-slate-700">
@@ -94,24 +92,18 @@
                     </div>
                 </div>
             </a>
-            
         </div>
     </div>
-    <!-- FIN NUEVO BOTÓN -->
 </nav>
 
 <!-- Main Content Area -->
 <main class="flex-1 mt-20 relative overflow-hidden flex flex-col" id="app-container">
 <!-- Hero Section -->
 <section class="absolute inset-0 z-10 flex items-center justify-center bg-slate-900" id="hero-section">
-
-    <!-- Background Image Container -->
     <div class="absolute inset-0 overflow-hidden">
         <img alt="Background" class="w-full h-full object-cover" src="background1.png" onerror="this.src='https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070'">
         <div class="absolute inset-0 bg-slate-900/40"></div>
     </div>
-
-    <!-- Content Wrapper -->
     <div class="relative z-20 max-w-5xl text-center px-6 flex flex-col items-center">
         <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-8 leading-tight tracking-tight slide-up drop-shadow-lg">
             ¿Qué tan resiliente es tu<br class="hidden md:block">
@@ -131,7 +123,7 @@
     </div>
 </section>
 
-<!-- Modal: Nombre del Usuario -->
+<!-- Modal 1: Nombre del Usuario -->
 <div id="name-modal" class="hidden absolute inset-0 z-50 flex items-center justify-center bg-slate-900/80 backdrop-blur-sm px-4">
     <div class="bg-white rounded-2xl p-8 max-w-md w-full shadow-2xl scale-in">
         <div class="flex items-center gap-3 mb-2">
@@ -149,6 +141,34 @@
                 <span class="material-symbols-outlined text-sm">arrow_forward</span>
             </button>
         </div>
+    </div>
+</div>
+
+<!-- Modal 2: Solicitar Teléfono (Opcional) -->
+<div id="phone-modal" class="hidden absolute inset-0 z-50 flex items-center justify-center bg-slate-900/80 backdrop-blur-sm px-4">
+    <div class="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl scale-in text-center relative overflow-hidden">
+        <!-- Decoración top -->
+        <div class="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-blue-400 to-blue-600"></div>
+        
+        <div class="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-inner">
+            <span class="material-symbols-outlined text-3xl">phone_iphone</span>
+        </div>
+        
+        <h3 class="text-2xl font-bold text-slate-900 mb-2">Un último paso...</h3>
+        <p class="text-slate-500 mb-6 text-sm px-4">Ingresa tu número telefónico para que un experto pueda contactarte directamente con tu análisis.</p>
+        
+        <input type="tel" id="user-phone-input" placeholder="Ej. 55 1234 5678" class="w-full px-5 py-4 rounded-xl border-2 border-slate-200 focus:ring-0 focus:border-blue-500 outline-none transition mb-6 text-lg font-medium text-slate-700 text-center tracking-wide">
+        
+        <!-- Botón llamativo principal -->
+        <button onclick="submitWithPhone()" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-4 rounded-xl font-bold text-lg transition shadow-xl shadow-blue-200 flex items-center justify-center gap-2 mb-4 group">
+            Obtener Resultados
+            <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform">arrow_forward</span>
+        </button>
+        
+        <!-- La salida "Psicológica" oculta -->
+        <button onclick="submitWithoutPhone()" class="text-slate-400 hover:text-slate-600 text-xs font-medium underline underline-offset-4 transition">
+            Omitir y enviar resultados al correo
+        </button>
     </div>
 </div>
 
@@ -211,7 +231,7 @@
 </div>
 
 <div class="max-w-6xl mx-auto px-6 -mt-16 relative z-20 pb-20 print-container">
-    <div class="flex flex-col lg:flex-row gap-6 items-start justify-center">
+    <div class="flex flex-col md:flex-row gap-6 items-start justify-center">
 
         <!-- Columna Izquierda: Resultados principales -->
         <div class="flex-1 w-full bg-white rounded-2xl shadow-lg border border-slate-100 p-8 text-center print-break-inside">
@@ -239,11 +259,13 @@
                 <div class="bg-blue-50 rounded-xl p-6 border border-blue-100 mt-8" id="inline-email-form">
                     <h4 class="text-lg font-bold text-slate-800 mb-2">¿Quieres ver los detalles de esta evaluación?</h4>
                     <p class="text-slate-600 text-sm mb-4">Ingresa tu correo aquí para mandarte los detalles completos.</p>
-                    <div class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+                    <div class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto relative">
                         <input type="email" id="inline-user-email" class="flex-1 px-4 py-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition" placeholder="nombre@empresa.com">
+                        
+                        <!-- BOTÓN MODIFICADO PARA LANZAR EL MODAL DE TELÉFONO -->
                         <button onclick="handleInlineSubmit()" id="btn-inline-submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-bold transition shadow-lg flex items-center justify-center gap-2">
-                            <span>Enviar Detalles</span>
-                            <span class="material-symbols-outlined text-sm">send</span>
+                            <span>Continuar</span>
+                            <span class="material-symbols-outlined text-sm">arrow_forward</span>
                         </button>
                     </div>
                 </div>
@@ -251,18 +273,31 @@
         </div>
 
         <!-- Columna Derecha: BCMEX Service Pitch -->
-        <div class="w-full lg:w-[320px] shrink-0 bg-gradient-to-br from-blue-900 to-slate-900 rounded-2xl p-6 text-white relative overflow-hidden shadow-xl print-break-inside no-print">
+        <div class="w-full md:w-[320px] shrink-0 bg-gradient-to-br from-blue-900 to-slate-900 rounded-2xl p-6 text-white relative overflow-hidden shadow-xl print-break-inside no-print">
+            <!-- Efecto visual -->
             <div class="absolute top-0 right-0 w-48 h-48 bg-blue-500 rounded-full mix-blend-overlay filter blur-3xl opacity-20 -mr-12 -mt-12"></div>
             
-            <div class="relative z-10 flex flex-col items-start text-left gap-4">
+            <div class="relative z-10 flex flex-col items-start text-left gap-2">
                 <h3 class="text-xl font-bold mb-1">Mejore su puntaje con BCMEX</h3>
-                <p class="text-blue-200 mb-6 text-sm leading-relaxed" id="pitch-text">
+                <p class="text-blue-200 text-sm leading-relaxed" id="pitch-text">
                     Nuestros expertos pueden implementar un BCP a medida que garantice la resiliencia operativa de su negocio.
                 </p>
-                <button class="w-full justify-center bg-white text-blue-900 px-6 py-3 rounded-lg font-bold text-sm hover:bg-blue-50 transition shadow-lg inline-flex items-center gap-2">
-                    Agendar Asesoría
-                    <span class="material-symbols-outlined text-lg">calendar_today</span>
-                </button>
+            </div>
+
+            <!-- SECCIÓN DE CONTACTO EN LA TARJETA LATERAL -->
+            <div class="relative z-10 mt-6 pt-6 border-t border-blue-800/60 flex flex-col gap-4">
+                <a href="mailto:comercial@bcmex.mx" class="flex items-center gap-3 text-blue-200 hover:text-white transition group">
+                    <div class="bg-blue-800/50 p-2.5 rounded-lg group-hover:bg-blue-600 transition shadow-sm">
+                        <span class="material-symbols-outlined text-base">mail</span>
+                    </div>
+                    <span class="text-sm font-medium tracking-wide">comercial@bcmex.mx</span>
+                </a>
+                <a href="https://bcmex.mx/" target="_blank" class="flex items-center gap-3 text-blue-200 hover:text-white transition group">
+                    <div class="bg-blue-800/50 p-2.5 rounded-lg group-hover:bg-blue-600 transition shadow-sm">
+                        <span class="material-symbols-outlined text-base">public</span>
+                    </div>
+                    <span class="text-sm font-medium tracking-wide">Visitar sitio web BCMEX</span>
+                </a>
             </div>
         </div>
 
@@ -355,6 +390,7 @@
         let currentMaxScore = 50; 
         let currentRiskLevel = '';
         let currentUserName = ''; 
+        let currentEmail = ''; // Variable global para guardar el correo temporalmente
 
         window.heroSection = document.getElementById('hero-section');
         window.wizardSection = document.getElementById('wizard-section');
@@ -366,6 +402,7 @@
         window.totalSteps = document.getElementById('total-steps');
         window.factTicker = document.getElementById('fun-fact-ticker');
         window.nameModal = document.getElementById('name-modal');
+        window.phoneModal = document.getElementById('phone-modal');
         
         window.init = function() {
             const dateOpts = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -385,7 +422,6 @@
             safeLogEvent('screen_view', { screen_name: 'Inicio' });
         }
 
-        // LÓGICA DEL NUEVO MENÚ DE CONTACTO
         window.toggleContactMenu = function() {
             const menu = document.getElementById('contact-menu');
             const chevron = document.getElementById('contact-chevron');
@@ -399,7 +435,6 @@
             }
         };
 
-        // Cerrar menú de contacto si se hace clic fuera de él
         document.addEventListener('click', function(event) {
             const menu = document.getElementById('contact-menu');
             const btn = document.getElementById('btn-contact');
@@ -598,11 +633,14 @@
             circle.classList.add('text-blue-600');
             
             document.getElementById('user-name-input').value = '';
+            document.getElementById('user-phone-input').value = '';
             currentUserName = '';
+            currentEmail = '';
 
             safeLogEvent('screen_view', { screen_name: 'Inicio' });
         }
 
+        // LÓGICA MODIFICADA PARA INTERCEPTAR EL CORREO
         window.handleInlineSubmit = async function() {
             if (!firebaseInitialized) {
                 alert("Error: Firebase no está configurado.");
@@ -629,6 +667,26 @@
                 return;
             }
 
+            // Guardamos el correo y abrimos el Modal de Teléfono
+            currentEmail = email;
+            phoneModal.classList.remove('hidden');
+            setTimeout(() => document.getElementById('user-phone-input').focus(), 100);
+        }
+
+        // ACCIONES DEL MODAL DE TELÉFONO
+        window.submitWithPhone = function() {
+            const phone = document.getElementById('user-phone-input').value.trim();
+            finalSubmit(phone);
+        }
+
+        window.submitWithoutPhone = function() {
+            finalSubmit(""); // Teléfono vacío
+        }
+
+        // ENVÍO FINAL A FIREBASE
+        window.finalSubmit = async function(phoneNumber) {
+            phoneModal.classList.add('hidden'); // Cerramos el modal
+            
             const btn = document.getElementById('btn-inline-submit');
             const originalText = btn.innerHTML;
             btn.innerHTML = `<span class="animate-spin material-symbols-outlined">progress_activity</span> Enviando...`;
@@ -646,9 +704,11 @@
                 const answersListRef = ref(db, 'respuestas_bcmex');
                 const newAnswerRef = push(answersListRef);
                 
+                // Guardamos en Firebase incluyendo el teléfono nuevo
                 await set(newAnswerRef, {
                     name: currentUserName,         
-                    email: email,
+                    email: currentEmail,
+                    phone: phoneNumber, // <--- CAMPO NUEVO
                     score: currentCalculatedScore,
                     maxScore: currentMaxScore,
                     level: currentRiskLevel,
@@ -665,14 +725,14 @@
                 });
 
                 alert("Se han capturado sus datos de manera exitosa. En breve le enviaremos los detalles completos a su correo.");
-                emailInput.value = '';
+                document.getElementById('inline-user-email').value = '';
 
                 resetApp();
 
             } catch (error) {
                 console.error("Firebase save error:", error);
                 if (error.code === 'PERMISSION_DENIED') {
-                    alert("Error de permisos: Asegúrate de actualizar tus Reglas de Firebase para incluir 'name' y 'dateReadable'.");
+                    alert("Error de permisos en Firebase. Asegúrate de añadir el campo 'phone' a las Reglas de Firebase o los datos no se guardarán.");
                 } else {
                     alert("Hubo un error al guardar: " + error.message);
                 }
