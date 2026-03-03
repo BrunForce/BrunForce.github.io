@@ -676,6 +676,13 @@
         // ACCIONES DEL MODAL DE TELÉFONO
         window.submitWithPhone = function() {
             const phone = document.getElementById('user-phone-input').value.trim();
+            
+            // NUEVO: Validación estricta en pantalla de 10 dígitos numéricos
+            if (phone !== "" && !/^\d{10}$/.test(phone)) {
+                alert("Por favor, ingrese un valor en formato válido (p.ej: 8112345678)");
+                return; // Detiene la ejecución para que no se envíe a Firebase
+            }
+            
             finalSubmit(phone);
         }
 
