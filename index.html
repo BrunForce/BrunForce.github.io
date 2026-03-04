@@ -54,8 +54,8 @@
 <!-- Navbar -->
 <nav class="w-full bg-white/95 backdrop-blur-md border-b border-slate-100 fixed top-0 z-50 h-20 flex items-center justify-between px-6 lg:px-12 shadow-sm no-print">
     <div class="flex items-center gap-3 cursor-pointer overflow-visible" onclick="resetApp()">
-        <!-- MODIFICADO: Aumentamos a h-16 y usamos scale-125 con origin-left para "hacerle zoom" e ignorar los márgenes transparentes de la imagen -->
-        <img class="h-16 w-auto object-contain transform scale-125 origin-left md:scale-150 transition-all" src="logo1.png" alt="Logo BCMEX" onerror="this.src='https://placehold.co/120x40?text=Logo'">
+        <!-- MODIFICADO: Usamos h-20 (alto total de la barra) y un zoom masivo personalizado de 250% en escritorio y 180% en móvil -->
+        <img class="h-20 w-auto object-contain transform scale-[1.8] origin-left md:scale-[2.5] transition-all" src="logo1.png" alt="Logo BCMEX" onerror="this.src='https://placehold.co/120x40?text=Logo'">
     </div>
     
     <!-- BOTÓN DE CONTÁCTANOS CON SLIDE -->
