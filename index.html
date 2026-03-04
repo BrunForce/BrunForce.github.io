@@ -53,8 +53,9 @@
 <body class="text-slate-800 h-screen overflow-hidden flex flex-col">
 <!-- Navbar -->
 <nav class="w-full bg-white/95 backdrop-blur-md border-b border-slate-100 fixed top-0 z-50 h-20 flex items-center justify-between px-6 lg:px-12 shadow-sm no-print">
-    <div class="flex items-center gap-3 cursor-pointer" onclick="resetApp()">
-        <img class="h-12 w-auto object-contain" src="logo1.png" alt="Logo BCMEX" onerror="this.src='https://placehold.co/120x40?text=Logo'">
+    <div class="flex items-center gap-3 cursor-pointer overflow-visible" onclick="resetApp()">
+        <!-- MODIFICADO: Aumentamos a h-16 y usamos scale-125 con origin-left para "hacerle zoom" e ignorar los márgenes transparentes de la imagen -->
+        <img class="h-16 w-auto object-contain transform scale-125 origin-left md:scale-150 transition-all" src="logo1.png" alt="Logo BCMEX" onerror="this.src='https://placehold.co/120x40?text=Logo'">
     </div>
     
     <!-- BOTÓN DE CONTÁCTANOS CON SLIDE -->
@@ -132,7 +133,7 @@
         </div>
         <p class="text-slate-500 mb-6 text-sm">Por favor, indícanos tu nombre para personalizar tu diagnóstico.</p>
         
-        <input type="text" id="user-name-input" placeholder="Ej. Juan Pérez" class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:ring-0 focus:border-blue-500 outline-none transition mb-8 text-lg font-medium text-slate-700" onkeypress="handleNameKeypress(event)">
+        <input type="text" id="user-name-input" maxlength="40" placeholder="Ej. Juan Pérez" class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:ring-0 focus:border-blue-500 outline-none transition mb-8 text-lg font-medium text-slate-700" onkeypress="handleNameKeypress(event)">
         
         <div class="flex justify-end gap-3">
             <button onclick="closeNameModal()" class="px-5 py-2.5 text-slate-500 hover:bg-slate-100 hover:text-slate-700 rounded-xl font-medium transition">Cancelar</button>
@@ -465,6 +466,10 @@
             const inputVal = document.getElementById('user-name-input').value.trim();
             if (!inputVal) {
                 alert("Por favor, ingresa tu nombre para continuar.");
+                return;
+            }
+            if (inputVal.length > 40) {
+                alert("El nombre es demasiado largo. Por favor, usa un máximo de 40 caracteres.");
                 return;
             }
             currentUserName = inputVal;
